@@ -1,0 +1,30 @@
+{
+    "custom_shortcuts": {
+        "iambashbot": "echo BashBot is the best\n"
+    },
+    "delete_typed": "false",
+    "firstrun": true,
+    "prefixes": [
+        "$",
+        ".bash"
+    ],
+    "presence_template": "@%s help",
+    "redirect_tag": ">.bash",
+    "short_tag": "$[*]",
+    "show_cursor": "false",
+    "terminal": {
+        "init": [
+            "export TERM=xterm",
+            "clear"
+        ],
+        "refresh": 1,
+        "shell_path": "/bin/bash",
+        "su_path": "/bin/su"
+    },
+    "terminal_template": "`| TTY #%s | %s | %s`\n```%s```",
+    "token": "",
+    "user": {
+        "login": "",
+        "password": ""
+    }
+}
