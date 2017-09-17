@@ -25,5 +25,6 @@
   "user": {
     "login": "",
     "password": ""
-  }
+  },
+  "firstrun": true
 }
