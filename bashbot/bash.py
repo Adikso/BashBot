@@ -27,7 +27,7 @@ class BashSession:
     def open(self, loop):
         pid, self.fd = os.forkpty()
         if pid == 0:
-            if bot.settings.get("user"):
+            if bot.settings.get("user") and "login" in bot.settings.get("user") and bot.settings.get("user")["login"]:
                     os.execv(bot.settings.get("terminal")["su_path"],
                              [bot.settings.get("terminal")["su_path"], "-", bot.settings.get("user")["login"], "-s", bot.settings.get("terminal")["shell_path"]])
             else:
