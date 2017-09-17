@@ -26,7 +26,11 @@ class OpenCommand(Command):
         session_name = None
 
         if "name" in list(parameters.keys()):
-            session_name = parameters["name"]
+            if not len(parameters["name"]) > 30:
+                session_name = parameters["name"]
+            else:
+                await client.send_message(message.channel, ":no_entry_sign: Maximum length of session name is 30. Your is: %s" % len(parameters["name"]))
+                return
 
         session = SessionManager.create_session(client, message, session_name)
 

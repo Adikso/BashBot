@@ -23,7 +23,10 @@ class TitleCommand(Command):
         session = SessionManager.get_session(message.channel)
 
         if session:
-            session.description = parameters["title"].replace("`", "'")
-            session.send_output(asyncio.get_event_loop())
+            if not len(parameters["title"]) > 50:
+                session.description = parameters["title"].replace("`", "'")
+                session.send_output(asyncio.get_event_loop())
+            else:
+                await client.send_message(message.channel, ":no_entry_sign: Maximum length of title is 50. Your is: %s" % len(parameters["title"]))
         else:
             await client.send_message(message.channel, ":no_entry_sign: You are trying to title non-existing session")
