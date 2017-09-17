@@ -31,7 +31,7 @@ class Settings:
             self.copy_default(home=False)
             return
 
-        print("Loaded `%s`" % self.filename)
+        print("Loaded `%s`" % (filename if filename else self.filename))
 
     def save(self, filename=None):
         try:
@@ -47,18 +47,21 @@ class Settings:
             print("Failed to write settings to file %s" % (filename if filename else self.filename))
             return False
 
-        print("Saved `%s`" % self.filename)
+        print("Saved `%s`" % (filename if filename else self.filename))
 
         return True
 
     def copy_default(self, home):
         if home:
-            self.settings = json.loads(pkg_resources.resource_string('bashbot', self.filename.replace(".json", ".default.json")))
-            self.filename = os.path.join(str(Path.home()), ".bashbot", self.filename)
+            filename = os.path.join(str(Path.home()), ".bashbot", self.filename)
 
-            if not os.path.exists(self.filename):
+            if not os.path.exists(filename):
+                self.settings = json.loads(pkg_resources.resource_string('bashbot', self.filename.replace(".json", ".default.json")).decode())
+                self.filename = filename
                 self.create_home_dir()
                 self.save()
+            else:
+                self.load(filename)
         else:
             self.load(os.path.join("bashbot", self.filename.replace(".json", ".default.json")))
             self.save()
