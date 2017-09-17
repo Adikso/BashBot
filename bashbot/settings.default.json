@@ -17,7 +17,7 @@
   "redirect_tag": ">.bash",
   "delete_typed": "false",
   "show_cursor": "false",
-  "terminal_template": "`| TTY #%s | %s | %s`\n```%s```",
+  "terminal_template": "`| TTY #%s | %s |`\n```%s```",
   "presence_template": "@%s help",
   "custom_shortcuts": {
     "iambashbot": "echo BashBot is the best\n"

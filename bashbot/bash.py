@@ -122,7 +122,6 @@ class BashSession:
         updated_message = bot.settings.get("terminal_template") % (
             self.name,
             self.status.title(),
-            (self.description.title() + " |" if self.description else ''),
             self.last_output)
 
         asyncio.set_event_loop(loop)

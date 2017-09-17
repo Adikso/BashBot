@@ -86,8 +86,8 @@ Command | Alias | Usage | Description
 .select | .s | .select [name] | Sets terminal as selected
 .controls |-|.controls add/remove [emoji] [content..] | Manages terminal controls
 .repeat | .r | .repeat <n> <string..> | Repeats string n times and sends to the current terminal session
-.title | .t | .title <title..> | Sets terminal title
 .sessions | .session | .sessions or .sessions kill <name> or .sessions killall | Manage sessions
+.rename | - | .rename <new_name> | Changes session name
 
 ### Shortcuts
 Shortcut | Description
@@ -130,4 +130,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Bobek, tomangelo, RhAnjiE for testing
+* Bopke, tomangelo, RhAnjiE for testing

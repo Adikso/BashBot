@@ -16,6 +16,6 @@
         "session.move": true,
         "session.open": true,
         "session.select": true,
-        "session.title": true
+        "session.rename": true
     }
 }

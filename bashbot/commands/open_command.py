@@ -26,10 +26,10 @@ class OpenCommand(Command):
         session_name = None
 
         if "name" in list(parameters.keys()):
-            if not len(parameters["name"]) > 10:
+            if not len(parameters["name"]) > 20:
                 session_name = parameters["name"]
             else:
-                await client.send_message(message.channel, ":no_entry_sign: Maximum length of session name is 10. Your is: %s" % len(parameters["name"]))
+                await client.send_message(message.channel, ":no_entry_sign: Maximum length of session name is 20. Your is: %s" % len(parameters["name"]))
                 return
 
         session = SessionManager.create_session(client, message, session_name)
@@ -39,7 +39,6 @@ class OpenCommand(Command):
             bot.settings.get("terminal_template") % (
                 session.name,
                 "Opening",
-                "",
                 "Waiting for tty..\n" + ((" " * 80) + "\n") * 23
             )
         )

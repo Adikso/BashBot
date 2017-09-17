@@ -8,11 +8,11 @@ from bashbot.commands.help_command import HelpCommand
 from bashbot.commands.here_command import HereCommand
 from bashbot.commands.open_command import OpenCommand
 from bashbot.commands.permission_command import PermissionCommand
+from bashbot.commands.rename_command import RenameCommand
 from bashbot.commands.repeat_command import RepeatCommand
 from bashbot.commands.select_command import SelectCommand
 from bashbot.commands.sessions_command import SessionsCommand
 from bashbot.commands.settings_command import SettingsCommand
-from bashbot.commands.title_command import TitleCommand
 from bashbot.controls import on_reaction_click
 from discord import Client
 
@@ -136,5 +136,5 @@ def register_commands():
     commands_manager.register(AboutCommand())
     commands_manager.register(PermissionCommand())
     commands_manager.register(ControlsCommand())
-    commands_manager.register(TitleCommand())
     commands_manager.register(SessionsCommand())
+    commands_manager.register(RenameCommand())
