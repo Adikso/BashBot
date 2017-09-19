@@ -43,6 +43,9 @@ def connect():
     async def on_message(message):
         is_command = False
 
+        if message.author.bot:
+            return
+
         if message.channel.is_private:
             is_command = True
 
