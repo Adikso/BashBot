@@ -61,7 +61,8 @@ class Settings:
                 self.create_home_dir()
                 self.save()
             else:
-                self.load(filename)
+                self.filename = filename
+                self.load()
         else:
             self.load(os.path.join("bashbot", self.filename.replace(".json", ".default.json")))
             self.save()
