@@ -15,10 +15,7 @@ def has_permission(permission_name, user, channel):
 
     permission = bot.permissions.get(user)
 
-    if not permission:
-        if bot.permissions.get("default"):
-            permission = bot.permissions.get("default")
-    else:
+    if permission:
         if "channels" in permission \
                 and channel.id in permission["channels"] \
                 and permission_name in permission["channels"][channel.id]:
@@ -36,16 +33,14 @@ def has_permission(permission_name, user, channel):
 
             permission = bot.permissions.get(user)["global"]
 
-        elif not user.startswith("&") \
+    if permission == bot.permissions.get(user):
+        if not user.startswith("&") \
                 and has_roles_permission(permission_name, channel.server.get_member(user), channel):
 
             return True
 
         elif bot.permissions.get("default"):
             permission = bot.permissions.get("default")
-
-        else:
-            return False
 
     return permission_name in permission and permission[permission_name]
 
