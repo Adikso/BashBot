@@ -16,7 +16,7 @@ from bashbot.commands.settings_command import SettingsCommand
 from bashbot.controls import on_reaction_click
 from discord import Client
 
-from bashbot.permissions import set_permission
+from bashbot.permissions import set_permission, has_permission
 from bashbot.session_manager import SessionManager
 from bashbot.settings import Settings
 
@@ -79,6 +79,9 @@ def connect():
                     session.send_input(command)
 
                     await delete_message(message)
+
+        if not has_permission("chat.write", message.author, message.channel):
+            await delete_message(message)
 
     @client.event
     async def on_reaction_add(reaction, user):

@@ -16,6 +16,7 @@
         "session.move": true,
         "session.open": true,
         "session.select": true,
-        "session.rename": true
+        "session.rename": true,
+        "chat.write": true
     }
 }
