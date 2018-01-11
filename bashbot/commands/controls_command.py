@@ -38,7 +38,7 @@ class ControlsCommand(Command):
         if session:
             remove_control(parameters["emoji_id"], session)
         else:
-            await client.send_message(message.channel, ":no_entry_sign: You are trying to add controls to non-existing session")
+            await client.send_message(message.channel, ":no_entry_sign: You are trying to remove controls from non-existing session")
 
     async def show(self, client, message, parameters):
         session = SessionManager.get_session(message.channel)
