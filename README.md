@@ -72,8 +72,7 @@ Now BashBot should start and show later instructions
 If you want your BashBot to be secure and want to use permissions system, you have to fill `user` field in `settings.json` with user credentials for user that will run terminal sessions and block read and write access to BashBot files and configuration files from that user. Otherwise users will be able to modify files such as `permissions.json` or stole your bot `token` from `settings.json` using terminal tools such as `nano`, `vim`, `cat` etc.
 
 ### Commands
-(Every command have to start with prefix. By default it's "$". You can change it in settings)
-(You can change more information about commands after typing "$.help")
+(Every command have to start with prefix. By default it's "$". You can change it in settings. More information about commands after typing "$.help")
 
 Command | Alias | Usage | Description 
 ------------ | ------------- | ------------- | ------------- 
