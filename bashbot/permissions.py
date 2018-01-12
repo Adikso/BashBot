@@ -35,8 +35,8 @@ def has_permission(permission_name, user, channel):
 
     if permission == bot.permissions.get(user):
         if not user.startswith("&") \
+                and not channel.is_private \
                 and has_roles_permission(permission_name, channel.server.get_member(user), channel):
-
             return True
 
         elif bot.permissions.get("default"):
