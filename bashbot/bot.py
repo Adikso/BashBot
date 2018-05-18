@@ -34,7 +34,7 @@ def connect():
         print('Logged in as %s with id: %s' % (client.user.name, client.user.id))
 
         if settings.get("firstrun"):
-            print("You can add bot to your server via https://discordapp.com/api/oauth2/authorize?client_id=%s&scope=bot&permissions=1" % client.user.id)
+            print("You can add bot to your server via https://discordapp.com/api/oauth2/authorize?client_id=%s&scope=bot&permissions=19520" % client.user.id)
 
         settings.set("_username", client.user.name)
         await client.change_presence(game=discord.Game(name=settings.get("presence_template") % client.user.name))
