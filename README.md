@@ -68,6 +68,8 @@ bashbot
 
 Now BashBot should start and show later instructions
 
+You can set 'owner' setting to your id to grant yourself all permissions
+
 ### Security
 If you want your BashBot to be secure and want to use permissions system, you have to fill `user` field in `settings.json` with user credentials for user that will run terminal sessions and block read and write access to BashBot files and configuration files from that user. Otherwise users will be able to modify files such as `permissions.json` or stole your bot `token` from `settings.json` using terminal tools such as `nano`, `vim`, `cat` etc.
 
