@@ -7,7 +7,7 @@
   "terminal": {
     "refresh": 1,
     "init": [
-      "export TERM=xterm",
+      "export TERM=linux",
       "clear"
     ],
     "shell_path": "/bin/bash",
