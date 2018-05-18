@@ -13,6 +13,9 @@ def has_permission(permission_name, user, channel):
     if isinstance(user, str) and user.startswith("<@"):
         user = user[2:-1]
 
+    if bot.settings.get("owner") == user:
+        return True
+
     permission = bot.permissions.get(user)
 
     if permission:
