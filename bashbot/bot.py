@@ -48,7 +48,7 @@ def connect():
 
         if is_command(message):
             success = await commands_manager.execute(client, message)
-            if not success and not message.author.bot and session and session.status != "frozen":
+            if not success and session and session.status != "frozen":
                 session.send_input(message.content)
 
             await delete_message(message)
