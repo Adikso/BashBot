@@ -51,13 +51,13 @@ def connect():
             if not success and session and session.status != "frozen":
                 session.send_input(message.content)
 
-            await delete_message(message)
+            await cleanup(message)
 
         elif session and session.status != "frozen":
             if message.content.endswith(settings.get("redirect_tag")):
                 session.send_input(message.content[:-len(settings.get("redirect_tag"))])
 
-                await delete_message(message)
+                await cleanup(message)
 
             else:
                 short_tag = settings.get("short_tag").split("*")
@@ -67,10 +67,10 @@ def connect():
                     command = command[:command.index(short_tag[1])]
                     session.send_input(command)
 
-                    await delete_message(message)
+                    await cleanup(message)
 
         if not has_permission("chat.write", message.author, message.channel):
-            await delete_message(message)
+            await cleanup(message)
 
     @client.event
     async def on_reaction_add(reaction, user):
@@ -108,7 +108,7 @@ Hi, I am a discord bot that allows terminal access via chat.
         client.run(settings.get("token"))
 
 
-async def delete_message(message):
+async def cleanup(message):
     me = message.channel.me if message.channel.type == discord.ChannelType.private else message.channel.server.me
     has_permission = message.channel.permissions_for(me).manage_messages
 
