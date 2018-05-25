@@ -41,26 +41,12 @@ def connect():
 
     @client.event
     async def on_message(message):
-        is_command = False
-
         if message.author.bot:
             return
 
-        if message.channel.is_private:
-            is_command = True
-
-        for prefix in settings.get("prefixes"):
-            if message.content.startswith(prefix):
-                message.content = message.content[len(prefix):].lstrip()
-                is_command = True
-
-        if message.content.startswith("<@%s>" % client.user.id):
-            message.content = message.content[len("<@%s>" % client.user.id):].lstrip()
-            is_command = True
-
         session = SessionManager.get_session(message.channel)
 
-        if is_command:
+        if is_command(message):
             success = await commands_manager.execute(client, message)
             if not success and not message.author.bot and session and session.status != "frozen":
                 session.send_input(message.content)
@@ -128,6 +114,22 @@ async def delete_message(message):
 
     if settings.get("delete_typed") == "true" and has_permission:
         await client.delete_message(message)
+
+
+def is_command(message):
+    if message.channel.is_private:
+        return True
+
+    for prefix in settings.get("prefixes"):
+        if message.content.startswith(prefix):
+            message.content = message.content[len(prefix):].lstrip()
+            return True
+
+    if message.content.startswith("<@%s>" % client.user.id):
+        message.content = message.content[len("<@%s>" % client.user.id):].lstrip()
+        return True
+
+    return False
 
 
 def register_commands():
