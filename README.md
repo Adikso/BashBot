@@ -46,6 +46,15 @@ pip3 install discord.py
 ```
 (Your settings and permissions files will be in cloned repository directory)
 
+**Python 3.7**
+
+If you are using python 3.7 you should upgrade to discord.py "async" branch, upgrade websockets and aiohttp manually.
+```
+pip3 install -U https://github.com/Rapptz/discord.py/archive/async.zip#egg=discord.py
+pip3 install websockets --upgrade
+pip3 install aiohttp --upgrade
+```
+
 ### Running
 In order to run bot you have to obtain a bot account. It can be obtained through the [applications page](https://discordapp.com/developers/applications/me#top). 
 Later you have to transform your app into app bot user
