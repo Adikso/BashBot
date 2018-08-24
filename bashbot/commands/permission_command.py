@@ -10,11 +10,10 @@ class PermissionCommand(Command):
         self.name = "Manage permissions"
         self.aliases = [".permission", ".p", ".permissions"]
         self.description = "Manage permissions"
-        self.usage = ".permission <user> <permission_name> [new_value]\n.permission list\n\n**Example:**\n.permission @Adikso channels.#general.info_about false"
+        self.usage = ".permission <user> <permission_name> [new_value]\n\n**Example:**\n.permission @Adikso channels.#general.info_about false"
         self.permission = "permissions.manage"
 
         self.syntax = SyntaxBuilder()\
-            .action("list", "list_all").parent()\
             .param("username", "show")\
             .param("permission_name", "verify")\
             .param("new_value", "set")\

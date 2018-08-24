@@ -90,7 +90,7 @@ Command | Alias | Usage | Description
 .about |-|.about|Shows information about project
 .help |-|.help [name] | Shows help
 .settings |.setting|.settings <name> [value] or .settings save | Get/Set bot settings
-.permission | .p, .permissions |.permission <user> <permission_name> [new_value] or .permission list | Manage permissions
+.permission | .p, .permissions |.permission <user> <permission_name> [new_value] | Manage permissions
 .open | .o | .open [name] | Opens new terminal session
 .close | .c | .close [name] | Closes terminal session
 .freeze | .f | .freeze [name] | Freezes terminal session
