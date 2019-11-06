@@ -5,7 +5,7 @@ from bashbot.terminal.sessions import sessions
 
 
 class CloseCommand(commands.Cog):
-    @commands.command(name='.close')
+    @commands.command(name='.close', aliases=['.c'])
     @has_permission('session.close')
     async def close(self, ctx, name):
         terminal = sessions().get_by_name(name)

@@ -9,7 +9,7 @@ from bashbot.utils import parse_template
 
 
 class OpenCommand(commands.Cog):
-    @commands.command(name='.open')
+    @commands.command(name='.open', aliases=['.o'])
     @has_permission('session.open')
     async def open(self, ctx, name: str = None):
         if name and len(name) > 20:

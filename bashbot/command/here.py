@@ -6,7 +6,7 @@ from bashbot.terminal.sessions import sessions
 
 
 class HereCommand(commands.Cog):
-    @commands.command(name='.here')
+    @commands.command(name='.here', aliases=['.h'])
     @has_permission('session.here')
     @session_exists()
     async def here(self, ctx: Context):
