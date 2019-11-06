@@ -53,8 +53,11 @@ class Terminal:
 
     def close(self):
         self.state = TerminalState.CLOSED
-        self.on_change(self, self.content)
+        self.refresh()
         os.close(self.fd)
+
+    def refresh(self):
+        self.on_change(self, self.content)
 
     def input(self, data: str):
         try:
@@ -77,7 +80,7 @@ class Terminal:
                 self.content_update = True
 
                 if self.on_change:
-                    self.on_change(self, self.content)
+                    self.refresh()
 
                 output = os.read(self.fd, 1024)
         except OSError:

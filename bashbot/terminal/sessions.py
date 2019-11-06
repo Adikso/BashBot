@@ -13,7 +13,7 @@ class Sessions:
     def add(self, message: Message, terminal: Terminal):
         self.sessions[message] = terminal
 
-    def get(self, channel: TextChannel) -> Terminal:
+    def get_by_channel(self, channel: TextChannel) -> Terminal:
         for message, terminal in self.sessions.items():
             if message.channel == channel:
                 return terminal
@@ -28,9 +28,12 @@ class Sessions:
             if self.sessions[k] == terminal:
                 del self.sessions[k]
 
-    def update_message(self, terminal: Terminal, content: str):
+    def get_message(self, terminal: Terminal):
         inv_map = {v: k for k, v in self.sessions.items()}
-        message = inv_map.get(terminal)
+        return inv_map.get(terminal)
+
+    def update_message(self, terminal: Terminal, content: str):
+        message = self.get_message(terminal)
 
         content = parse_template(
             settings().get('terminal.template'),

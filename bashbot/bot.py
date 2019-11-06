@@ -7,6 +7,7 @@ from discord.utils import oauth_url
 from bashbot.command.about import AboutCommand
 from bashbot.command.close import CloseCommand
 from bashbot.command.controls import ControlsCommand
+from bashbot.command.here import HereCommand
 from bashbot.command.open import OpenCommand
 from bashbot.settings import settings
 from bashbot.terminal.sessions import sessions
@@ -21,6 +22,7 @@ class BashBot(Bot):
         super().__init__(command_prefix, **options)
         self.add_cog(OpenCommand())
         self.add_cog(CloseCommand())
+        self.add_cog(HereCommand())
         self.add_cog(ControlsCommand())
         self.add_cog(AboutCommand())
 
@@ -38,7 +40,7 @@ class BashBot(Bot):
         if message.author.bot:
             return
 
-        terminal = sessions().get(message.channel)
+        terminal = sessions().get_by_channel(message.channel)
 
         if self.is_invoke(message):
             await self.process_commands(message)

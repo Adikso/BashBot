@@ -14,10 +14,10 @@ class ControlsCommand(commands.Cog):
     @session_exists()
     @has_permission('input.controls.manage')
     async def add(self, ctx, emoji_id, content):
-        sessions().get(ctx)
+        sessions().get_by_channel(ctx.channel)
 
     @controls.command()
     @session_exists()
     @has_permission('input.controls.manage')
     async def remove(self, ctx, emoji_id):
-        sessions().get(ctx)
+        sessions().get_by_channel(ctx.channel)
