@@ -10,6 +10,7 @@ from bashbot.command.controls import ControlsCommand
 from bashbot.command.freeze import FreezeCommand
 from bashbot.command.here import HereCommand
 from bashbot.command.open import OpenCommand
+from bashbot.command.rename import RenameCommand
 from bashbot.settings import settings
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
@@ -25,6 +26,7 @@ class BashBot(Bot):
         self.add_cog(CloseCommand())
         self.add_cog(HereCommand())
         self.add_cog(FreezeCommand())
+        self.add_cog(RenameCommand())
         self.add_cog(ControlsCommand())
         self.add_cog(AboutCommand())
 
