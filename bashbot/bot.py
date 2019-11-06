@@ -1,7 +1,7 @@
 import discord
 from discord import Message
 from discord.abc import PrivateChannel
-from discord.ext.commands import Bot
+from discord.ext.commands import Bot, Context
 from discord.utils import oauth_url
 
 from bashbot.command.about import AboutCommand
@@ -19,6 +19,7 @@ from bashbot.utils import get_logger, parse_template
 
 class BashBot(Bot):
     logger = get_logger('BashBot')
+    cmd_logger = get_logger('Command')
 
     def __init__(self, command_prefix, **options):
         super().__init__(command_prefix, **options)
@@ -50,6 +51,10 @@ class BashBot(Bot):
             await self.process_commands(message)
         elif terminal and terminal.state == TerminalState.OPEN:
             terminal.input(message.content + '\n')
+            self.cmd_logger.info(f"[{message.channel.guild.name}/#{message.channel.name}/{terminal.name}] {message.author.name} typed: {message.content}")
+
+    async def on_command(self, ctx: Context):
+        self.cmd_logger.info(f"[{ctx.message.channel.guild.name}/#{ctx.message.channel.name}] {ctx.message.author.name} invoked command: {ctx.message.content}")
 
     def is_invoke(self, message: Message):
         if isinstance(message.channel, PrivateChannel):
