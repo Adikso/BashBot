@@ -1,0 +1,6 @@
+venv/
+.idea/
+__pycache__/
+
+config.toml
+bashbot.log

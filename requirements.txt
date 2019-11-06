@@ -1,0 +1,3 @@
+toml
+pyte
+discord.py=1.2.4
