@@ -60,6 +60,9 @@ class Terminal:
         self.on_change(self, self.content)
 
     def input(self, data: str):
+        if self.state != TerminalState.OPEN:
+            return
+
         try:
             os.write(self.fd, data.encode("utf-8"))
         except OSError:

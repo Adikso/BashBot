@@ -7,6 +7,7 @@ from discord.utils import oauth_url
 from bashbot.command.about import AboutCommand
 from bashbot.command.close import CloseCommand
 from bashbot.command.controls import ControlsCommand
+from bashbot.command.freeze import FreezeCommand
 from bashbot.command.here import HereCommand
 from bashbot.command.open import OpenCommand
 from bashbot.settings import settings
@@ -23,6 +24,7 @@ class BashBot(Bot):
         self.add_cog(OpenCommand())
         self.add_cog(CloseCommand())
         self.add_cog(HereCommand())
+        self.add_cog(FreezeCommand())
         self.add_cog(ControlsCommand())
         self.add_cog(AboutCommand())
 
