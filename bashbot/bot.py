@@ -11,6 +11,7 @@ from bashbot.command.freeze import FreezeCommand
 from bashbot.command.here import HereCommand
 from bashbot.command.open import OpenCommand
 from bashbot.command.rename import RenameCommand
+from bashbot.command.repeat import RepeatCommand
 from bashbot.settings import settings
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
@@ -30,6 +31,7 @@ class BashBot(Bot):
         self.add_cog(RenameCommand())
         self.add_cog(ControlsCommand())
         self.add_cog(AboutCommand())
+        self.add_cog(RepeatCommand())
 
     async def on_ready(self):
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
