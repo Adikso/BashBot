@@ -6,7 +6,7 @@ from bashbot.terminal.sessions import sessions
 
 
 class RepeatCommand(commands.Cog):
-    @commands.command(name='.repeat')
+    @commands.command(name='.repeat', aliases=['.r'])
     @has_permission('session.repeat')
     async def repeat(self, ctx, n: int, *, text):
         terminal = sessions().get_by_channel(ctx.message.channel)

@@ -5,7 +5,7 @@ from bashbot.terminal.sessions import sessions
 
 
 class RenameCommand(commands.Cog):
-    @commands.command(name='.rename', aliases=['.r'])
+    @commands.command(name='.rename')
     @has_permission('session.rename')
     @session_exists()
     async def rename(self, ctx, new_name):
