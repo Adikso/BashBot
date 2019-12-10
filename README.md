@@ -1,6 +1,7 @@
 ![BashBot](https://i.imgur.com/oHESoVW.png)
 
 ![Python 3.5](https://img.shields.io/badge/python-3.5-orange.svg) ![Discord.py](https://img.shields.io/badge/discord.py-0.16.11-green.svg) ![Discord.py](https://img.shields.io/badge/pyte-0.7.0_dev-blue.svg)
+[![Run on Repl.it](https://repl.it/badge/github/Adikso/BashBot)](https://repl.it/github/Adikso/BashBot)
 
 BashBot is a Discord bot that provides terminal access via chat.
 

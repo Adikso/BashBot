@@ -1,0 +1,2 @@
+language = "python3"
+run = "python3.8 -m pip install setuptools && python3.8 -m pip install pyte && python3.8 -m pip install discord.py && python3.8 bashbot.py"
