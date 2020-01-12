@@ -12,6 +12,8 @@ from bashbot.command.here import HereCommand
 from bashbot.command.open import OpenCommand
 from bashbot.command.rename import RenameCommand
 from bashbot.command.repeat import RepeatCommand
+from bashbot.exceptions import SessionDontExistException, ArgumentFormatException
+from bashbot.permissions import MissingPermissions
 from bashbot.settings import settings
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
@@ -66,3 +68,13 @@ class BashBot(Bot):
         has_mention = self.user in message.mentions
 
         return has_prefix or has_mention
+
+    async def on_command_error(self, ctx: Context, error):
+        if isinstance(error, ArgumentFormatException):
+            await ctx.send(error.message)
+
+        if isinstance(error, MissingPermissions):
+            await ctx.send("Missing permissions")
+
+        if isinstance(error, SessionDontExistException):
+            await ctx.send("You need to have open terminal to use this command")
