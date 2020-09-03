@@ -18,6 +18,11 @@ class Sessions:
             if message.channel == channel:
                 return terminal
 
+    def get_by_message(self, searched_message: Message) -> Terminal:
+        for message, terminal in self.sessions.items():
+            if searched_message.id == message.id:
+                return terminal
+
     def get_by_name(self, name: str) -> Terminal:
         for message, terminal in self.sessions.items():
             if terminal.name == name:

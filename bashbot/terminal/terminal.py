@@ -5,6 +5,8 @@ from enum import Enum
 
 import pyte
 
+from bashbot.terminal.control import TerminalControl
+
 
 class TerminalState(Enum):
     CLOSED = 0
@@ -25,7 +27,7 @@ class Terminal:
         self.password = password
         self.on_change = on_change
 
-        self.controls = []
+        self.controls = {}
 
         self.state: TerminalState = TerminalState.CLOSED
         self.screen = pyte.Screen(80, 24)
@@ -89,3 +91,9 @@ class Terminal:
         except OSError:
             self.state = TerminalState.BROKEN
             return
+
+    def add_control(self, emoji, content):
+        self.controls[emoji] = TerminalControl(emoji, content)
+
+    def remove_control(self, emoji):
+        self.controls.pop(emoji)

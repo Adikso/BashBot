@@ -1,5 +1,5 @@
 import discord
-from discord import Message
+from discord import Message, Reaction, User
 from discord.abc import PrivateChannel
 from discord.ext.commands import Bot, Context
 from discord.utils import oauth_url
@@ -14,6 +14,7 @@ from bashbot.command.rename import RenameCommand
 from bashbot.command.repeat import RepeatCommand
 from bashbot.exceptions import SessionDontExistException, ArgumentFormatException
 from bashbot.settings import settings
+from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
 from bashbot.utils import get_logger, parse_template
@@ -73,6 +74,20 @@ class BashBot(Bot):
         content = ctx.message.content
 
         self.cmd_logger.info(f"[{guild_name}/#{channel_name}] {author_name} invoked command: {content}")
+
+    async def on_reaction_add(self, reaction: Reaction, user: User):
+        if user.bot:
+            return
+
+        terminal = sessions().get_by_message(reaction.message)
+        if reaction.emoji not in terminal.controls:
+            return
+
+        control: TerminalControl = terminal.controls[reaction.emoji]
+        terminal.input(control.text)
+
+    async def on_reaction_remove(self, reaction: Reaction, user: User):
+        await self.on_reaction_add(reaction, user)
 
     def is_invoke(self, message: Message):
         if isinstance(message.channel, PrivateChannel):

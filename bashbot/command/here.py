@@ -11,8 +11,8 @@ class HereCommand(commands.Cog):
     @session_exists()
     async def here(self, ctx: Context):
         terminal = sessions().get_by_channel(ctx.channel)
-
         message = sessions().get_message(terminal)
+
         await message.delete()
         sessions().remove(terminal)
 

@@ -10,6 +10,5 @@ class RenameCommand(commands.Cog):
     @session_exists()
     async def rename(self, ctx, new_name):
         terminal = sessions().get_by_channel(ctx.message.channel)
-
         terminal.name = new_name
         terminal.refresh()
