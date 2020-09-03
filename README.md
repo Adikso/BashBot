@@ -61,7 +61,7 @@ Command | Alias | Usage | Description
 .repeat | .r | .repeat <n> <string..> | Repeats string n times and sends to the current terminal session
 .rename | - | .rename <new_name> | Changes session name
 .submit | - | .submit | Toggles auto submit mode
-.macro | .m | .macro <name> | Executes macro from "macros" directory
+.macro | .m | .macro <macro_name> | Executes macro from "macros" directory
 .interactive | .i | .i | Enables interactive mode where all messages are sent to terminal
 
 ### Shortcuts
