@@ -6,6 +6,7 @@ from enum import Enum
 import pyte
 
 from bashbot.terminal.control import TerminalControl
+from bashbot.terminal.shortcuts import replace_shortcuts
 
 
 class TerminalState(Enum):
@@ -66,6 +67,8 @@ class Terminal:
     def input(self, data: str):
         if self.state != TerminalState.OPEN:
             return
+
+        data = replace_shortcuts(data)
 
         try:
             os.write(self.fd, data.encode("utf-8"))
