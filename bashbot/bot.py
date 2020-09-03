@@ -15,6 +15,7 @@ from bashbot.command.open import OpenCommand
 from bashbot.command.rename import RenameCommand
 from bashbot.command.repeat import RepeatCommand
 from bashbot.command.select import SelectCommand
+from bashbot.command.submit import SubmitCommand
 from bashbot.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFoundException, \
     MacroNotFoundException
 from bashbot.settings import settings
@@ -41,6 +42,7 @@ class BashBot(Bot):
         self.add_cog(MacroCommand())
         self.add_cog(SelectCommand())
         self.add_cog(InteractiveCommand())
+        self.add_cog(SubmitCommand())
 
     async def on_ready(self):
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
@@ -73,7 +75,10 @@ class BashBot(Bot):
             if not terminal.interactive:
                 content = remove_prefix(content)
 
-            terminal.input(content + '\n')
+            if terminal.auto_submit:
+                content += '\n'
+
+            terminal.input(content)
 
             # Log message
             guild_name = message.channel.guild.name

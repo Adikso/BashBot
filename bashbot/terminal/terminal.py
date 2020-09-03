@@ -29,6 +29,7 @@ class Terminal:
 
         self.controls = {}
         self.interactive = False
+        self.auto_submit = True
 
         self.state: TerminalState = TerminalState.CLOSED
         self.screen = pyte.Screen(80, 24)
