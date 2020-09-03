@@ -67,6 +67,7 @@ class BashBot(Bot):
             if not terminal.interactive and not prefix:
                 return
 
+            # We don't remove prefix when in interactive mode
             content = message.content
             if not terminal.interactive:
                 content = remove_prefix(content)
@@ -77,7 +78,6 @@ class BashBot(Bot):
             guild_name = message.channel.guild.name
             channel_name = message.channel.name
             author_name = message.author.name
-
             self.cmd_logger.info(f"[{guild_name}/#{channel_name}/{terminal.name}] {author_name} typed: {content}")
 
     async def on_command(self, ctx: Context):
