@@ -20,7 +20,6 @@ class Settings:
 
         # [commands]
         self.add_default('commands.prefixes', ['$', '.bash'])
-        self.add_default('commands.delete_typed', False)
 
         # [discord]
         self.add_default('discord.token', 'TOKEN_HERE')
