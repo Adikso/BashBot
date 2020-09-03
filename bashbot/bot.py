@@ -9,6 +9,7 @@ from bashbot.command.close import CloseCommand
 from bashbot.command.controls import ControlsCommand
 from bashbot.command.freeze import FreezeCommand
 from bashbot.command.here import HereCommand
+from bashbot.command.interactive import InteractiveCommand
 from bashbot.command.macro import MacroCommand
 from bashbot.command.open import OpenCommand
 from bashbot.command.rename import RenameCommand
@@ -19,7 +20,7 @@ from bashbot.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
-from bashbot.utils import get_logger, parse_template, has_prefix
+from bashbot.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix
 
 
 class BashBot(Bot):
@@ -38,6 +39,7 @@ class BashBot(Bot):
         self.add_cog(RepeatCommand())
         self.add_cog(MacroCommand())
         self.add_cog(SelectCommand())
+        self.add_cog(InteractiveCommand())
 
     async def on_ready(self):
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
@@ -61,13 +63,20 @@ class BashBot(Bot):
         if self.is_invoke(message):
             await self.process_commands(message)
         elif terminal and terminal.state == TerminalState.OPEN:
-            terminal.input(message.content + '\n')
+            prefix = extract_prefix(message.content)
+            if not terminal.interactive and not prefix:
+                return
+
+            content = message.content
+            if not terminal.interactive:
+                content = remove_prefix(content)
+
+            terminal.input(content + '\n')
 
             # Log message
             guild_name = message.channel.guild.name
             channel_name = message.channel.name
             author_name = message.author.name
-            content = message.content
 
             self.cmd_logger.info(f"[{guild_name}/#{channel_name}/{terminal.name}] {author_name} typed: {content}")
 
@@ -98,7 +107,7 @@ class BashBot(Bot):
             return True
 
         has_mention = self.user in message.mentions
-        return has_prefix(message.content) or has_mention
+        return is_command(message.content) or has_mention
 
     async def on_command_error(self, ctx: Context, error):
         if isinstance(error, ArgumentFormatException):

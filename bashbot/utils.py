@@ -36,5 +36,19 @@ def block_escape(text):
     return text.replace('```', '`‎`‎`')
 
 
-def has_prefix(content):
-    return any(content.startswith(prefix) for prefix in settings().get('commands.prefixes'))
+def extract_prefix(content):
+    for prefix in settings().get('commands.prefixes'):
+        if content.startswith(prefix):
+            return prefix
+
+
+def remove_prefix(content):
+    prefix = extract_prefix(content)
+    if prefix:
+        return content[len(prefix):]
+    else:
+        return content
+
+
+def is_command(content):
+    return any(content.startswith(prefix + '.') for prefix in settings().get('commands.prefixes'))

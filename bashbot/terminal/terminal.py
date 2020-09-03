@@ -28,6 +28,7 @@ class Terminal:
         self.on_change = on_change
 
         self.controls = {}
+        self.interactive = False
 
         self.state: TerminalState = TerminalState.CLOSED
         self.screen = pyte.Screen(80, 24)

@@ -1,7 +1,7 @@
 from bashbot.exceptions import MacroNotFoundException
 from bashbot.settings import settings
 from bashbot.terminal.sessions import sessions
-from bashbot.utils import has_prefix
+from bashbot.utils import extract_prefix
 
 
 async def execute_macro(ctx, name):
@@ -12,7 +12,7 @@ async def execute_macro(ctx, name):
 
     macro = settings().macros[name]
     for line in macro.split('\n'):
-        if has_prefix(line):
+        if extract_prefix(line):
             ctx.message.content = line
             await ctx.bot.process_commands(ctx.message)
         else:
