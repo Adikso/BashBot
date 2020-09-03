@@ -8,7 +8,12 @@ class ArgumentFormatException(commands.CheckFailure):
 
 class SessionDontExistException(commands.CheckFailure):
     def __init__(self):
-        self.message = 'You are trying to access controls of non-existing terminal'
+        self.message = 'You need to have open terminal to use this command'
+
+
+class TerminalNotFound(commands.CheckFailure):
+    def __init__(self):
+        self.message = 'Could not find requested terminal'
 
 
 class MacroNotFoundException(commands.CheckFailure):

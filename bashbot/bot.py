@@ -13,7 +13,8 @@ from bashbot.command.macro import MacroCommand
 from bashbot.command.open import OpenCommand
 from bashbot.command.rename import RenameCommand
 from bashbot.command.repeat import RepeatCommand
-from bashbot.exceptions import SessionDontExistException, ArgumentFormatException
+from bashbot.command.select import SelectCommand
+from bashbot.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFound
 from bashbot.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
@@ -36,6 +37,7 @@ class BashBot(Bot):
         self.add_cog(AboutCommand())
         self.add_cog(RepeatCommand())
         self.add_cog(MacroCommand())
+        self.add_cog(SelectCommand())
 
     async def on_ready(self):
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
@@ -103,4 +105,7 @@ class BashBot(Bot):
             await ctx.send(error.message)
 
         if isinstance(error, SessionDontExistException):
-            await ctx.send("You need to have open terminal to use this command")
+            await ctx.send(error.message)
+
+        if isinstance(error, TerminalNotFound):
+            await ctx.send(error.message)

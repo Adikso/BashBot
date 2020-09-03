@@ -9,14 +9,18 @@ from bashbot.utils import execute_async, parse_template, block_escape
 class Sessions:
     def __init__(self):
         self.sessions = {}
+        self.selected = {}
 
     def add(self, message: Message, terminal: Terminal):
         self.sessions[message] = terminal
+        self.select(message.channel, terminal)
+
+    def select(self, channel: TextChannel, terminal: Terminal):
+        self.selected[channel] = terminal
 
     def get_by_channel(self, channel: TextChannel) -> Terminal:
-        for message, terminal in self.sessions.items():
-            if message.channel == channel:
-                return terminal
+        if channel in self.selected:
+            return self.selected[channel]
 
     def get_by_message(self, searched_message: Message) -> Terminal:
         for message, terminal in self.sessions.items():
@@ -32,6 +36,10 @@ class Sessions:
         for k in self.sessions.copy():
             if self.sessions[k] == terminal:
                 del self.sessions[k]
+
+        message: Message = self.get_message(terminal)
+        if message.channel in self.selected:
+            self.selected.pop(message.channel)
 
     def get_message(self, terminal: Terminal):
         inv_map = {v: k for k, v in self.sessions.items()}
