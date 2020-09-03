@@ -38,7 +38,7 @@ class Sessions:
                 del self.sessions[k]
 
         message: Message = self.get_message(terminal)
-        if message.channel in self.selected:
+        if message and message.channel in self.selected:
             self.selected.pop(message.channel)
 
     def get_message(self, terminal: Terminal):

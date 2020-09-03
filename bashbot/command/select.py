@@ -14,3 +14,4 @@ class SelectCommand(commands.Cog):
             raise TerminalNotFound()
 
         sessions().select(ctx.message.channel, terminal)
+        await ctx.send(f"Selected terminal {name}")
