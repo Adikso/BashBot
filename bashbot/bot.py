@@ -42,7 +42,10 @@ class BashBot(Bot):
             settings().get("discord.presence"),
             prefix=self.command_prefix
         )
-        await self.change_presence(status=discord.Game(presence))
+        await self.change_presence(
+            status=discord.Status.online,
+            activity=discord.Game(presence)
+        )
 
     async def on_message(self, message: Message):
         if message.author.bot:
