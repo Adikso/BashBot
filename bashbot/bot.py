@@ -57,10 +57,22 @@ class BashBot(Bot):
             await self.process_commands(message)
         elif terminal and terminal.state == TerminalState.OPEN:
             terminal.input(message.content + '\n')
-            self.cmd_logger.info(f"[{message.channel.guild.name}/#{message.channel.name}/{terminal.name}] {message.author.name} typed: {message.content}")
+
+            # Log message
+            guild_name = message.channel.guild.name
+            channel_name = message.channel.name
+            author_name = message.author.name
+            content = message.content
+
+            self.cmd_logger.info(f"[{guild_name}/#{channel_name}/{terminal.name}] {author_name} typed: {content}")
 
     async def on_command(self, ctx: Context):
-        self.cmd_logger.info(f"[{ctx.message.channel.guild.name}/#{ctx.message.channel.name}] {ctx.message.author.name} invoked command: {ctx.message.content}")
+        guild_name = ctx.message.channel.guild.name
+        channel_name = ctx.message.channel.name
+        author_name = ctx.message.author.name
+        content = ctx.message.content
+
+        self.cmd_logger.info(f"[{guild_name}/#{channel_name}] {author_name} invoked command: {content}")
 
     def is_invoke(self, message: Message):
         if isinstance(message.channel, PrivateChannel):
