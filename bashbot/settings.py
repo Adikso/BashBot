@@ -1,3 +1,4 @@
+import glob
 import os
 import toml
 from pathlib import Path
@@ -14,7 +15,6 @@ class Settings:
         self.macros: dict = {}
 
     def load(self, path=DEFAULT_CONFIG_PATH):
-        # os.makedirs(path, exist_ok=True)
         if os.path.exists(path):
             with open(path, 'r') as file:
                 self.config = toml.load(file)
@@ -24,7 +24,7 @@ class Settings:
         self.add_default('commands.delete_typed', False)
 
         # [discord]
-        self.add_default('discord.token', 'TOKEN HERE')
+        self.add_default('discord.token', 'TOKEN_HERE')
         self.add_default('discord.presence', '{prefix}help')
 
         # [terminal]
@@ -42,13 +42,13 @@ class Settings:
     def load_macros(self, path=DEFAULT_MACRO_PATH):
         os.makedirs(path, exist_ok=True)
 
-        for filename in os.listdir(path):
-            if filename.endswith('.txt'):
-                self.macros[filename[:-4]] = Path(filename).read_text()
+        for filename in glob.glob("*.txt"):
+            self.macros[filename[:-4]] = Path(filename).read_text()
 
     def get(self, config_path, default=None):
         current_node = self.config
 
+        # Follow dot path
         for node_name in config_path.split('.'):
             if node_name not in current_node.keys():
                 return default

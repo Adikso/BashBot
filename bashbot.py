@@ -6,6 +6,8 @@ from bashbot.bot import BashBot
 from bashbot.settings import settings
 from bashbot.utils import get_logger
 
+logger = get_logger('Launcher')
+
 
 def setup_logger():
     logging.basicConfig(
@@ -17,13 +19,12 @@ def setup_logger():
 
 def launch():
     setup_logger()
-    logger = get_logger("Launcher")
-
     settings().load()
+
     prefix = settings().get('commands.prefixes', ['$'])[0]
     token = settings().get('discord.token')
 
-    if token == "TOKEN HERE":
+    if token == 'TOKEN_HERE':
         logger.error('You need to specify bot TOKEN in config.toml')
         return
 
