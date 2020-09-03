@@ -24,3 +24,4 @@ class FreezeCommand(commands.Cog):
             terminal.state = TerminalState.FROZEN
 
         terminal.refresh()
+        await ctx.send(f"`Changed terminal #{terminal.name} state to {terminal.state.name}`")

@@ -11,3 +11,4 @@ class MacroCommand(commands.Cog):
     @session_exists()
     async def macro(self, ctx: Context, macro_name: str):
         await execute_macro(ctx, macro_name)
+        await ctx.send(f"`Executed macro {macro_name}`")

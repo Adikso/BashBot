@@ -15,7 +15,8 @@ from bashbot.command.open import OpenCommand
 from bashbot.command.rename import RenameCommand
 from bashbot.command.repeat import RepeatCommand
 from bashbot.command.select import SelectCommand
-from bashbot.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFound
+from bashbot.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFoundException, \
+    MacroNotFoundException
 from bashbot.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
@@ -110,11 +111,19 @@ class BashBot(Bot):
         return is_command(message.content) or has_mention
 
     async def on_command_error(self, ctx: Context, error):
+        message = None
+
         if isinstance(error, ArgumentFormatException):
-            await ctx.send(error.message)
+            message = error.message
 
         if isinstance(error, SessionDontExistException):
-            await ctx.send(error.message)
+            message = error.message
 
-        if isinstance(error, TerminalNotFound):
-            await ctx.send(error.message)
+        if isinstance(error, TerminalNotFoundException):
+            message = error.message
+
+        if isinstance(error, MacroNotFoundException):
+            message = error.message
+
+        if message:
+            await ctx.send(f'`{message}`')

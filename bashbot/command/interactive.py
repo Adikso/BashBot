@@ -17,3 +17,8 @@ class InteractiveCommand(commands.Cog):
             raise SessionDontExistException()
 
         terminal.interactive = not terminal.interactive
+
+        if terminal.interactive:
+            await ctx.send(f"`Entered interactive mode. Repeat command to disable`")
+        else:
+            await ctx.send(f"`Exited interactive mode`")

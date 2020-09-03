@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 from bashbot.command import has_permission
-from bashbot.exceptions import TerminalNotFound
+from bashbot.exceptions import TerminalNotFoundException
 from bashbot.terminal.sessions import sessions
 
 
@@ -11,7 +11,7 @@ class SelectCommand(commands.Cog):
     async def select(self, ctx, name):
         terminal = sessions().get_by_name(name)
         if not terminal:
-            raise TerminalNotFound()
+            raise TerminalNotFoundException()
 
         sessions().select(ctx.message.channel, terminal)
-        await ctx.send(f"Selected terminal {name}")
+        await ctx.send(f"`Selected terminal #{name}`")

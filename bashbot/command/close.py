@@ -19,3 +19,5 @@ class CloseCommand(commands.Cog):
 
         terminal.close()
         sessions().remove(terminal)
+
+        await ctx.send(f"`Closed terminal #{terminal.name}`")
