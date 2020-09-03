@@ -9,6 +9,7 @@ from bashbot.command.close import CloseCommand
 from bashbot.command.controls import ControlsCommand
 from bashbot.command.freeze import FreezeCommand
 from bashbot.command.here import HereCommand
+from bashbot.command.macro import MacroCommand
 from bashbot.command.open import OpenCommand
 from bashbot.command.rename import RenameCommand
 from bashbot.command.repeat import RepeatCommand
@@ -17,7 +18,7 @@ from bashbot.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
-from bashbot.utils import get_logger, parse_template
+from bashbot.utils import get_logger, parse_template, has_prefix
 
 
 class BashBot(Bot):
@@ -34,6 +35,7 @@ class BashBot(Bot):
         self.add_cog(ControlsCommand())
         self.add_cog(AboutCommand())
         self.add_cog(RepeatCommand())
+        self.add_cog(MacroCommand())
 
     async def on_ready(self):
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
@@ -93,10 +95,8 @@ class BashBot(Bot):
         if isinstance(message.channel, PrivateChannel):
             return True
 
-        has_prefix = any(message.content.startswith(prefix) for prefix in settings().get('commands.prefixes'))
         has_mention = self.user in message.mentions
-
-        return has_prefix or has_mention
+        return has_prefix(message.content) or has_mention
 
     async def on_command_error(self, ctx: Context, error):
         if isinstance(error, ArgumentFormatException):

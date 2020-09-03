@@ -1,6 +1,8 @@
 import asyncio
 import logging
 
+from bashbot.settings import settings
+
 loop = asyncio.get_event_loop()
 
 
@@ -32,3 +34,7 @@ def check_update():
 
 def block_escape(text):
     return text.replace('```', '`‎`‎`')
+
+
+def has_prefix(content):
+    return any(content.startswith(prefix) for prefix in settings().get('commands.prefixes'))

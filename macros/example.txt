@@ -1,0 +1,2 @@
+$.controls add 🍋 abcd
+whoami\n

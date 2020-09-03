@@ -1,4 +1,3 @@
-import glob
 import os
 import toml
 from pathlib import Path
@@ -42,8 +41,9 @@ class Settings:
     def load_macros(self, path=DEFAULT_MACRO_PATH):
         os.makedirs(path, exist_ok=True)
 
-        for filename in glob.glob("*.txt"):
-            self.macros[filename[:-4]] = Path(filename).read_text()
+        for filename in os.listdir(path):
+            if filename.endswith('.txt'):
+                self.macros[filename[:-4]] = Path(path + '/' + filename).read_text()
 
     def get(self, config_path, default=None):
         current_node = self.config

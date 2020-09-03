@@ -20,6 +20,7 @@ def setup_logger():
 def launch():
     setup_logger()
     settings().load()
+    settings().load_macros()
 
     prefix = settings().get('commands.prefixes', ['$'])[0]
     token = settings().get('discord.token')
