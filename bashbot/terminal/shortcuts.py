@@ -32,8 +32,8 @@ def replace_shortcuts(command):
 
     ctrl_chars = "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 
-    for char in ctrl_chars:
-        command = command.replace("^" + char, str(chr(ctrl_chars.index(char))))
+    for i, char in enumerate(ctrl_chars):
+        command = command.replace("^" + char, str(chr(i)))
 
     for initial, to in d.items():
         command = command.replace(initial, to)

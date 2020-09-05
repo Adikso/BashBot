@@ -82,6 +82,7 @@ Shortcut | Description
 \r|Carriage Return (CR)
 \t|Horizontal Tab (TAB)
 \v|Vertical Tab (VT)
+^(key) | CTRL + (key)
 
 
 ## Built With
