@@ -29,6 +29,7 @@ class Settings:
         self.add_default('terminal.template', '`| TTY #{name} | {state} |`\n```{content}```')
         self.add_default('terminal.shell_path', '/bin/bash')
         self.add_default('terminal.su_path', '/bin/su')
+        self.add_default('terminal.startup_macro', '')
 
         # [terminal.user]
         self.add_default('terminal.user.login_as_other_user', False)

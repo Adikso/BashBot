@@ -2,6 +2,7 @@ from discord.ext import commands
 
 from bashbot.command import has_permission
 from bashbot.exceptions import ArgumentFormatException
+from bashbot.macros import execute_macro
 from bashbot.settings import settings
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import Terminal
@@ -27,8 +28,13 @@ class OpenCommand(commands.Cog):
         )
         message = await ctx.send(content)
 
+        # Prepare terminal
         sh_path = settings().get('terminal.shell_path')
         terminal = Terminal(name, sh_path=sh_path, on_change=sessions().update_message)
         terminal.open()
-
         sessions().add(message, terminal)
+
+        # Run macro on terminal startup
+        startup_macro = settings().get('terminal.startup_macro')
+        if startup_macro:
+            await execute_macro(ctx, startup_macro)
