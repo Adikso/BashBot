@@ -2,6 +2,7 @@ from discord.ext import commands
 
 from bashbot.command import has_permission, session_exists
 from bashbot.exceptions import SessionDontExistException
+from bashbot.settings import settings
 from bashbot.terminal.sessions import sessions
 
 
@@ -16,6 +17,10 @@ class CloseCommand(commands.Cog):
             raise SessionDontExistException()
 
         terminal.close()
-        sessions().remove(terminal)
 
+        if settings().get('terminal.delete_on_close'):
+            message = sessions().get_message(terminal)
+            await message.delete()
+
+        sessions().remove(terminal)
         await ctx.send(f"`Closed terminal #{terminal.name}`")
