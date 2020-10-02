@@ -65,7 +65,10 @@ class BashBot(Bot):
 
         if self.is_invoke(message):
             await self.process_commands(message)
+
         elif terminal and terminal.state == TerminalState.OPEN:
+            if(message.content[0] == "$" and message.content[1] != "."):
+                await message.delete()
             prefix = extract_prefix(message.content)
             if not terminal.interactive and not prefix:
                 return
@@ -91,6 +94,8 @@ class BashBot(Bot):
         channel_name = ctx.message.channel.name
         author_name = ctx.message.author.name
         content = ctx.message.content
+
+        
 
         self.cmd_logger.info(f"[{guild_name}/#{channel_name}] {author_name} invoked command: {content}")
 
