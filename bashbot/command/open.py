@@ -31,8 +31,8 @@ class OpenCommand(commands.Cog):
         # Prepare terminal
         sh_path = settings().get('terminal.shell_path')
         terminal = Terminal(name, sh_path=sh_path, on_change=sessions().update_message)
-        terminal.open()
         sessions().add(message, terminal)
+        terminal.open()
 
         # Run macro on terminal startup
         startup_macro = settings().get('terminal.startup_macro')
