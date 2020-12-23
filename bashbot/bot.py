@@ -23,7 +23,7 @@ from bashbot.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
-from bashbot.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix
+from bashbot.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix, check_update
 
 
 class BashBot(Bot):
@@ -49,6 +49,16 @@ class BashBot(Bot):
         self.add_cog(HelpCommand())
 
     async def on_ready(self):
+        if settings().get('other.check_for_updates'):
+            self.logger.info(f'Checking for updates...')
+
+            update_details = check_update(rate_limit=False)
+            if update_details:
+                self.logger(f'New update available. Try running `git pull`.'
+                            f'Commit {update_details["message"]} ({update_details["sha"]})')
+            else:
+                self.logger.info(f'BashBot is up to date')
+
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
         self.logger.info(f'You can add bot to your server via {oauth_url(self.user.id)}')
 

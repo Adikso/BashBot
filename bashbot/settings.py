@@ -37,6 +37,9 @@ class Settings:
         self.add_default('terminal.user.username', 'myuser')
         self.add_default('terminal.user.password', 'mypassword')
 
+        # [other]
+        self.add_default('other.check_for_updates', True)
+
         self.save()
 
     def load_macros(self, path=DEFAULT_MACRO_PATH):

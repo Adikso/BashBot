@@ -1,7 +1,11 @@
+from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
 
 from bashbot.command import has_permission
+from bashbot.constants import REPOSITORY_URL, REPOSITORY_AUTHOR, THUMBNAIL_URL, EMBED_COLOR
+from bashbot.settings import settings
+from bashbot.utils import check_update, current_commit
 
 
 class AboutCommand(commands.Cog):
@@ -11,7 +15,17 @@ class AboutCommand(commands.Cog):
     )
     @has_permission('info.about')
     async def about(self, ctx: Context):
-        await ctx.send("__**About me**__\n"
-                       "BashBot is a Discord bot that allows terminal access via chat.\n"
-                       "**Github**: https://github.com/Adikso/BashBot\n"
-                       "**Author**: Adikso.")
+        embed = Embed(title='About BashBot', description='BashBot is a Discord bot that allows terminal access via chat.', color=EMBED_COLOR)
+        embed.add_field(name='Github', value=REPOSITORY_URL, inline=False)
+        embed.add_field(name='Author', value=REPOSITORY_AUTHOR, inline=False)
+        embed.add_field(name='Current version', value=current_commit(), inline=False)
+        embed.set_thumbnail(url=THUMBNAIL_URL)
+
+        if settings().get('other.check_for_updates'):
+            update_details = check_update()
+            if update_details:
+                embed.add_field(name='New update available', value=f'{update_details["message"]} ({update_details["sha"]})', inline=False)
+            else:
+                embed.add_field(name='No updates available', value='BashBot is up to date', inline=False)
+
+        await ctx.send(embed=embed)
