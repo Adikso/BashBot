@@ -16,6 +16,7 @@ from bashbot.command.rename import RenameCommand
 from bashbot.command.repeat import RepeatCommand
 from bashbot.command.select import SelectCommand
 from bashbot.command.submit import SubmitCommand
+from bashbot.command.help import HelpCommand
 from bashbot.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFoundException, \
     MacroNotFoundException
 from bashbot.settings import settings
@@ -43,6 +44,9 @@ class BashBot(Bot):
         self.add_cog(SelectCommand())
         self.add_cog(InteractiveCommand())
         self.add_cog(SubmitCommand())
+
+        self.remove_command("help")
+        self.add_cog(HelpCommand())
 
     async def on_ready(self):
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')

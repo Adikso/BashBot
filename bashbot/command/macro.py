@@ -6,7 +6,12 @@ from bashbot.macros import execute_macro
 
 
 class MacroCommand(commands.Cog):
-    @commands.command(name='.macro', aliases=['.m'])
+    @commands.command(
+        name='.macro',
+        aliases=['.m'],
+        description='Executes macro from "macros" directory',
+        usage='<macro_name>'
+    )
     @has_permission('session.macro')
     @session_exists()
     async def macro(self, ctx: Context, macro_name: str):

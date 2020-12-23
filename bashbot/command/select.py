@@ -6,7 +6,12 @@ from bashbot.terminal.sessions import sessions
 
 
 class SelectCommand(commands.Cog):
-    @commands.command(name='.select', aliases=['.s'])
+    @commands.command(
+        name='.select',
+        aliases=['.s'],
+        description='Sets terminal as selected',
+        usage='[name]'
+    )
     @has_permission('session.select')
     async def select(self, ctx, name):
         terminal = sessions().get_by_name(name)

@@ -6,7 +6,11 @@ from bashbot.terminal.sessions import sessions
 
 
 class HereCommand(commands.Cog):
-    @commands.command(name='.here', aliases=['.h'])
+    @commands.command(
+        name='.here',
+        aliases=['.h'],
+        description='Moves selected terminal below the user message'
+    )
     @has_permission('session.here')
     @session_exists()
     async def here(self, ctx: Context):

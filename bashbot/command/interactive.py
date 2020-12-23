@@ -7,7 +7,11 @@ from bashbot.terminal.sessions import sessions
 
 
 class InteractiveCommand(commands.Cog):
-    @commands.command(name='.interact', aliases=['.i'])
+    @commands.command(
+        name='.interact',
+        aliases=['.i'],
+        description='Toggles interactive mode where all messages are sent to terminal'
+    )
     @has_permission('session.interactive')
     @session_exists()
     async def interactive(self, ctx: Context):

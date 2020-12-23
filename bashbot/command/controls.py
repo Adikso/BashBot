@@ -7,7 +7,11 @@ from bashbot.terminal.terminal import Terminal
 
 
 class ControlsCommand(commands.Cog):
-    @commands.group(name='.controls')
+    @commands.group(
+        name='.controls',
+        description='Manages terminal controls',
+        usage='add/remove [emoji] [content..]'
+    )
     async def controls(self, ctx):
         if ctx.invoked_subcommand is None:
             pass

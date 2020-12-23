@@ -10,7 +10,12 @@ from bashbot.utils import parse_template
 
 
 class OpenCommand(commands.Cog):
-    @commands.command(name='.open', aliases=['.o'])
+    @commands.command(
+        name='.open',
+        aliases=['.o'],
+        description='Opens new terminal session',
+        usage='[name]'
+    )
     @has_permission('session.open')
     async def open(self, ctx, name: str = None):
         if name and len(name) > 20:

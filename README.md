@@ -2,8 +2,7 @@
 
 BashBot is a Discord bot that provides terminal access via chat.
 
-**This bot is in work in progress state**\
-There are few features missing such as help command. List of commands is available in readme below
+**This bot is in work in progress state**
 
 ![](https://i.imgur.com/seKhece.png)
 

@@ -6,7 +6,10 @@ from bashbot.terminal.sessions import sessions
 
 
 class SubmitCommand(commands.Cog):
-    @commands.command(name='.submit')
+    @commands.command(
+        name='.submit',
+        description='Toggles auto submit mode'
+    )
     @has_permission('session.submit')
     @session_exists()
     async def submit(self, ctx: Context):

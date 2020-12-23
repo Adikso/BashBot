@@ -7,7 +7,11 @@ from bashbot.terminal.terminal import TerminalState
 
 
 class FreezeCommand(commands.Cog):
-    @commands.command(name='.freeze', aliases=['.f'])
+    @commands.command(
+        name='.freeze',
+        aliases=['.f'],
+        description='Freezes current terminal session'
+    )
     @has_permission('session.freeze')
     @session_exists()
     async def freeze(self, ctx):
