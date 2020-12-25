@@ -2,19 +2,17 @@ import time
 import requests
 
 from bashbot.core.factory import SingletonDecorator
-from bashbot.constants import REPOSITORY_AUTHOR, REPOSITORY_NAME, REPOSITORY_BRANCH
+from bashbot.constants import REPOSITORY_AUTHOR, REPOSITORY_NAME, REPOSITORY_BRANCH, TIME_BETWEEN_UPDATE_CHECKS
 
 
 class Updater:
-    TIME_BETWEEN_CHECKS = 600
-
     def __init__(self):
         self.last_check = None
         self.last_update = None
 
     def check_for_updates(self, rate_limit=True):
         current_time = int(time.time())
-        if rate_limit and self.last_check and current_time - self.last_check < self.TIME_BETWEEN_CHECKS:
+        if rate_limit and self.last_check and current_time - self.last_check < TIME_BETWEEN_UPDATE_CHECKS:
             return self.last_update
 
         self.last_check = current_time
