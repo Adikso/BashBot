@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord.ext.commands import Context
 
 from bashbot.command import has_permission, session_exists
-from bashbot.macros import execute_macro
+from bashbot.core.macros import execute_macro
 
 
 class MacroCommand(commands.Cog):

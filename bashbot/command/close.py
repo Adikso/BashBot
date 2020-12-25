@@ -1,8 +1,8 @@
 from discord.ext import commands
 
 from bashbot.command import has_permission, session_exists
-from bashbot.exceptions import SessionDontExistException
-from bashbot.settings import settings
+from bashbot.core.exceptions import SessionDontExistException
+from bashbot.core.settings import settings
 from bashbot.terminal.sessions import sessions
 
 

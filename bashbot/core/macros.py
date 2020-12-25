@@ -1,7 +1,7 @@
-from bashbot.exceptions import MacroNotFoundException
-from bashbot.settings import settings
+from bashbot.core.exceptions import MacroNotFoundException
+from bashbot.core.settings import settings
 from bashbot.terminal.sessions import sessions
-from bashbot.utils import extract_prefix
+from bashbot.core.utils import extract_prefix
 
 
 async def execute_macro(ctx, name):

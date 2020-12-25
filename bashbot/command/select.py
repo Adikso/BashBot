@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 from bashbot.command import has_permission
-from bashbot.exceptions import TerminalNotFoundException
+from bashbot.core.exceptions import TerminalNotFoundException
 from bashbot.terminal.sessions import sessions
 
 

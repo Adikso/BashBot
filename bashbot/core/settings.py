@@ -2,7 +2,7 @@ import os
 import toml
 from pathlib import Path
 
-from bashbot.factory import SingletonDecorator
+from bashbot.core.factory import SingletonDecorator
 
 
 class Settings:

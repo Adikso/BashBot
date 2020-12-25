@@ -3,8 +3,8 @@ import logging
 from discord import LoginFailure
 
 from bashbot.bot import BashBot
-from bashbot.settings import settings
-from bashbot.utils import get_logger
+from bashbot.core.settings import settings
+from bashbot.core.utils import get_logger
 
 logger = get_logger('Launcher')
 

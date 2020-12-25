@@ -1,7 +1,7 @@
 import time
 import requests
 
-from bashbot.factory import SingletonDecorator
+from bashbot.core.factory import SingletonDecorator
 from bashbot.constants import REPOSITORY_AUTHOR, REPOSITORY_NAME, REPOSITORY_BRANCH
 
 

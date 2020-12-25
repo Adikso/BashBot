@@ -1,9 +1,9 @@
 from discord import TextChannel, Message
 
-from bashbot.factory import SingletonDecorator
-from bashbot.settings import settings
+from bashbot.core.factory import SingletonDecorator
+from bashbot.core.settings import settings
 from bashbot.terminal.terminal import Terminal
-from bashbot.utils import execute_async, parse_template, block_escape
+from bashbot.core.utils import execute_async, parse_template, block_escape
 
 
 class Sessions:

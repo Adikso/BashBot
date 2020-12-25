@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from bashbot.settings import settings
+from bashbot.core.settings import settings
 
 loop = asyncio.get_event_loop()
 

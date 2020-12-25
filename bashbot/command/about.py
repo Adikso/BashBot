@@ -4,8 +4,8 @@ from discord.ext.commands import Context
 
 from bashbot.command import has_permission
 from bashbot.constants import REPOSITORY_URL, REPOSITORY_AUTHOR, THUMBNAIL_URL, EMBED_COLOR
-from bashbot.settings import settings
-from bashbot.updater import updater
+from bashbot.core.settings import settings
+from bashbot.core.updater import updater
 
 
 class AboutCommand(commands.Cog):

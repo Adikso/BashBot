@@ -17,14 +17,14 @@ from bashbot.command.repeat import RepeatCommand
 from bashbot.command.select import SelectCommand
 from bashbot.command.submit import SubmitCommand
 from bashbot.command.help import HelpCommand
-from bashbot.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFoundException, \
+from bashbot.core.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFoundException, \
     MacroNotFoundException
-from bashbot.settings import settings
+from bashbot.core.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
-from bashbot.updater import updater
-from bashbot.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix
+from bashbot.core.updater import updater
+from bashbot.core.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix
 
 
 class BashBot(Bot):

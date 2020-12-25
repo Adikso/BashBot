@@ -1,12 +1,12 @@
 from discord.ext import commands
 
 from bashbot.command import has_permission
-from bashbot.exceptions import ArgumentFormatException
-from bashbot.macros import execute_macro
-from bashbot.settings import settings
+from bashbot.core.exceptions import ArgumentFormatException
+from bashbot.core.macros import execute_macro
+from bashbot.core.settings import settings
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import Terminal
-from bashbot.utils import parse_template
+from bashbot.core.utils import parse_template
 
 
 class OpenCommand(commands.Cog):

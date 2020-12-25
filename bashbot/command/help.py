@@ -4,7 +4,7 @@ from discord.ext.commands import Context
 
 from bashbot.command import has_permission
 from bashbot.constants import THUMBNAIL_URL, EMBED_COLOR, EMBED_COLOR_ERROR
-from bashbot.settings import settings
+from bashbot.core.settings import settings
 
 
 class HelpCommand(commands.Cog):
