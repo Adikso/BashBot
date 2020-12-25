@@ -2,13 +2,11 @@ import os
 import toml
 from pathlib import Path
 
+from bashbot.constants import DEFAULT_CONFIG_PATH, DEFAULT_MACRO_PATH
 from bashbot.core.factory import SingletonDecorator
 
 
 class Settings:
-    DEFAULT_CONFIG_PATH = 'config.toml'
-    DEFAULT_MACRO_PATH = 'macros'
-
     def __init__(self):
         self.config: dict = {}
         self.macros: dict = {}

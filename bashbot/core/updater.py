@@ -25,7 +25,8 @@ class Updater:
 
         return self.last_update
 
-    def get_upstream_commit(self):
+    @staticmethod
+    def get_upstream_commit():
         api_url = f'https://api.github.com/repos/{REPOSITORY_AUTHOR}/{REPOSITORY_NAME}/branches/{REPOSITORY_BRANCH}'
         r = requests.get(api_url)
 
@@ -38,7 +39,8 @@ class Updater:
             'message': data['commit']['commit']['message']
         }
 
-    def get_local_commit(self):
+    @staticmethod
+    def get_local_commit():
         try:
             with open('.git/HEAD', 'r') as file:
                 ref = file.readline().split(": ")[1].rstrip()
