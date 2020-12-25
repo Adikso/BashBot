@@ -101,6 +101,11 @@ class BashBot(Bot):
             author_name = message.author.name
             self.cmd_logger.info(f"[{guild_name}/#{channel_name}/{terminal.name}] {author_name} typed: {content}")
 
+            should_delete_any = settings().get('terminal.delete_messages')
+            should_delete_interactive = settings().get('terminal.interactive.delete_messages')
+            if should_delete_any or (should_delete_interactive and terminal.interactive):
+                await message.delete()
+
     async def on_command(self, ctx: Context):
         guild_name = ctx.message.channel.guild.name
         channel_name = ctx.message.channel.name
