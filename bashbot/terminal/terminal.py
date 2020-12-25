@@ -4,6 +4,7 @@ import threading
 import pyte
 from enum import Enum
 
+from bashbot.core.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.shortcuts import replace_shortcuts
 
@@ -29,7 +30,7 @@ class Terminal:
 
         self.controls = {}
         self.interactive = False
-        self.auto_submit = True
+        self.auto_submit = settings().get('terminal.submit_by_default')
 
         self.state: TerminalState = TerminalState.CLOSED
         self.screen = pyte.Screen(80, 24)

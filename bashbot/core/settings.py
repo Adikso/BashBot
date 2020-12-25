@@ -30,6 +30,7 @@ class Settings:
         self.add_default('terminal.startup_macro', '')
         self.add_default('terminal.delete_on_close', False)
         self.add_default('terminal.delete_messages', False)
+        self.add_default('terminal.submit_by_default', True)
 
         # [terminal.interactive]
         self.add_default('terminal.interactive.delete_messages', False)
