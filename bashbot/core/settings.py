@@ -29,12 +29,12 @@ class Settings:
         self.add_default('terminal.su_path', '/bin/su')
         self.add_default('terminal.startup_macro', '')
         self.add_default('terminal.delete_on_close', False)
-        self.add_default('terminal.delete_messages', False)
+        self.add_default('terminal.delete_messages', True)
         self.add_default('terminal.submit_by_default', True)
         self.add_default('terminal.interactive_by_default', False)
 
         # [terminal.interactive]
-        self.add_default('terminal.interactive.delete_messages', False)
+        self.add_default('terminal.interactive.delete_messages', True)
 
         # [terminal.user]
         self.add_default('terminal.user.login_as_other_user', False)
