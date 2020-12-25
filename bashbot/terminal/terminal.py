@@ -29,7 +29,7 @@ class Terminal:
         self.on_change = on_change
 
         self.controls = {}
-        self.interactive = False
+        self.interactive = settings().get('terminal.interactive_by_default')
         self.auto_submit = settings().get('terminal.submit_by_default')
 
         self.state: TerminalState = TerminalState.CLOSED

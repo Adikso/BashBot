@@ -31,6 +31,7 @@ class Settings:
         self.add_default('terminal.delete_on_close', False)
         self.add_default('terminal.delete_messages', False)
         self.add_default('terminal.submit_by_default', True)
+        self.add_default('terminal.interactive_by_default', False)
 
         # [terminal.interactive]
         self.add_default('terminal.interactive.delete_messages', False)
