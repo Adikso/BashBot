@@ -23,7 +23,8 @@ from bashbot.settings import settings
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
-from bashbot.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix, check_update
+from bashbot.updater import updater
+from bashbot.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix
 
 
 class BashBot(Bot):
@@ -52,10 +53,10 @@ class BashBot(Bot):
         if settings().get('other.check_for_updates'):
             self.logger.info(f'Checking for updates...')
 
-            update_details = check_update(rate_limit=False)
+            update_details = updater().check_for_updates(rate_limit=False)
             if update_details:
-                self.logger(f'New update available. Try running `git pull`.'
-                            f'Commit {update_details["message"]} ({update_details["sha"]})')
+                self.logger.info(f'New update available. Try running `git pull`. '
+                                 f'Commit "{update_details["message"]}" ({update_details["sha"]})')
             else:
                 self.logger.info(f'BashBot is up to date')
 
