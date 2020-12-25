@@ -13,7 +13,7 @@ class SubmitCommand(commands.Cog):
     @has_permission('session.submit')
     @session_exists()
     async def submit(self, ctx: Context):
-        terminal = sessions().get_by_channel(ctx.channel)
+        terminal = sessions().by_channel(ctx.channel)
 
         terminal.auto_submit = not terminal.auto_submit
         if terminal.auto_submit:

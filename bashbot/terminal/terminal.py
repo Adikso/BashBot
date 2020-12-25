@@ -1,9 +1,8 @@
 import os
 import sys
 import threading
-from enum import Enum
-
 import pyte
+from enum import Enum
 
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.shortcuts import replace_shortcuts
@@ -53,7 +52,7 @@ class Terminal:
         else:
             self.state = TerminalState.OPEN
 
-            pty_watcher = threading.Thread(target=self.monitor_pty)
+            pty_watcher = threading.Thread(target=self.__monitor_pty)
             pty_watcher.start()
 
     def close(self):
@@ -64,7 +63,7 @@ class Terminal:
     def refresh(self):
         self.on_change(self, self.content)
 
-    def input(self, data: str):
+    def send_input(self, data: str):
         if self.state != TerminalState.OPEN:
             return
 
@@ -75,14 +74,20 @@ class Terminal:
         except OSError:
             self.state = TerminalState.BROKEN
 
-    def monitor_pty(self):
+    def add_control(self, emoji, content):
+        self.controls[emoji] = TerminalControl(emoji, content)
+
+    def remove_control(self, emoji):
+        self.controls.pop(emoji)
+
+    def __monitor_pty(self):
         try:
             output = os.read(self.fd, 1024)
 
             if self.login:
-                self.input(self.password + '\n')
+                self.send_input(self.password + '\n')
 
-            self.input('export TERM=linux\nclear\n')
+            self.send_input('export TERM=linux\nclear\n')
 
             while output:
                 self.stream.feed(output)
@@ -96,9 +101,3 @@ class Terminal:
         except OSError:
             self.state = TerminalState.BROKEN
             return
-
-    def add_control(self, emoji, content):
-        self.controls[emoji] = TerminalControl(emoji, content)
-
-    def remove_control(self, emoji):
-        self.controls.pop(emoji)

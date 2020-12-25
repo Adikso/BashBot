@@ -18,16 +18,16 @@ class Sessions:
     def select(self, channel: TextChannel, terminal: Terminal):
         self.selected[channel] = terminal
 
-    def get_by_channel(self, channel: TextChannel) -> Terminal:
+    def by_channel(self, channel: TextChannel) -> Terminal:
         if channel in self.selected:
             return self.selected[channel]
 
-    def get_by_message(self, searched_message: Message) -> Terminal:
+    def by_message(self, searched_message: Message) -> Terminal:
         for message, terminal in self.sessions.items():
             if searched_message.id == message.id:
                 return terminal
 
-    def get_by_name(self, name: str) -> Terminal:
+    def by_name(self, name: str) -> Terminal:
         for message, terminal in self.sessions.items():
             if terminal.name == name:
                 return terminal
@@ -37,16 +37,16 @@ class Sessions:
             if self.sessions[k] == terminal:
                 del self.sessions[k]
 
-        message: Message = self.get_message(terminal)
+        message: Message = self.find_message(terminal)
         if message and message.channel in self.selected:
             self.selected.pop(message.channel)
 
-    def get_message(self, terminal: Terminal):
+    def find_message(self, terminal: Terminal):
         inv_map = {v: k for k, v in self.sessions.items()}
         return inv_map.get(terminal)
 
     def update_message(self, terminal: Terminal, content: str):
-        message = self.get_message(terminal)
+        message = self.find_message(terminal)
 
         content = parse_template(
             settings().get('terminal.template'),

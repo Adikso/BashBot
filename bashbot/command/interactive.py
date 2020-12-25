@@ -15,7 +15,7 @@ class InteractiveCommand(commands.Cog):
     @has_permission('session.interactive')
     @session_exists()
     async def interactive(self, ctx: Context):
-        terminal = sessions().get_by_channel(ctx.message.channel)
+        terminal = sessions().by_channel(ctx.message.channel)
 
         if not terminal:
             raise SessionDontExistException()

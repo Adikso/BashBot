@@ -13,7 +13,7 @@ class RenameCommand(commands.Cog):
     @has_permission('session.rename')
     @session_exists()
     async def rename(self, ctx, new_name):
-        terminal = sessions().get_by_channel(ctx.message.channel)
+        terminal = sessions().by_channel(ctx.message.channel)
 
         old_name = terminal.name
         terminal.name = new_name

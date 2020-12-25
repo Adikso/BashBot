@@ -14,8 +14,8 @@ class RepeatCommand(commands.Cog):
     )
     @has_permission('session.repeat')
     async def repeat(self, ctx, n: int, *, text):
-        terminal = sessions().get_by_channel(ctx.message.channel)
+        terminal = sessions().by_channel(ctx.message.channel)
         if not terminal:
             raise SessionDontExistException()
 
-        terminal.input(text * n)
+        terminal.send_input(text * n)

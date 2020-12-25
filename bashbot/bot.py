@@ -1,5 +1,4 @@
-import discord
-from discord import Message, Reaction, User
+from discord import Message, Reaction, User, Status, Game
 from discord.abc import PrivateChannel
 from discord.ext.commands import Bot, Context
 from discord.utils import oauth_url
@@ -50,15 +49,7 @@ class BashBot(Bot):
         self.add_cog(HelpCommand())
 
     async def on_ready(self):
-        if settings().get('other.check_for_updates'):
-            self.logger.info(f'Checking for updates...')
-
-            update_details = updater().check_for_updates(rate_limit=False)
-            if update_details:
-                self.logger.info(f'New update available. Try running `git pull`. '
-                                 f'Commit "{update_details["message"]}" ({update_details["sha"]})')
-            else:
-                self.logger.info(f'BashBot is up to date')
+        self.__check_for_updates()
 
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
         self.logger.info(f'You can add bot to your server via {oauth_url(self.user.id)}')
@@ -68,15 +59,27 @@ class BashBot(Bot):
             prefix=self.command_prefix
         )
         await self.change_presence(
-            status=discord.Status.online,
-            activity=discord.Game(presence)
+            status=Status.online,
+            activity=Game(presence)
         )
+
+    def __check_for_updates(self):
+        if settings().get('other.check_for_updates'):
+            self.logger.info(f'Checking for updates...')
+
+            update_details = updater().check_for_updates(rate_limit=False)
+            if update_details:
+                self.logger.info(f'New update available. Try running `git pull`. '
+                                 f'Commit "{update_details["message"]}" '
+                                 f'({update_details["sha"]})')
+            else:
+                self.logger.info(f'BashBot is up to date')
 
     async def on_message(self, message: Message):
         if message.author.bot:
             return
 
-        terminal = sessions().get_by_channel(message.channel)
+        terminal = sessions().by_channel(message.channel)
 
         if self.is_invoke(message):
             await self.process_commands(message)
@@ -93,7 +96,7 @@ class BashBot(Bot):
             if terminal.auto_submit:
                 content += '\n'
 
-            terminal.input(content)
+            terminal.send_input(content)
 
             # Log message
             guild_name = message.channel.guild.name
@@ -118,22 +121,15 @@ class BashBot(Bot):
         if user.bot:
             return
 
-        terminal = sessions().get_by_message(reaction.message)
+        terminal = sessions().by_message(reaction.message)
         if reaction.emoji not in terminal.controls:
             return
 
         control: TerminalControl = terminal.controls[reaction.emoji]
-        terminal.input(control.text)
+        terminal.send_input(control.text)
 
     async def on_reaction_remove(self, reaction: Reaction, user: User):
         await self.on_reaction_add(reaction, user)
-
-    def is_invoke(self, message: Message):
-        if isinstance(message.channel, PrivateChannel):
-            return True
-
-        has_mention = self.user in message.mentions
-        return is_command(message.content) or has_mention
 
     async def on_command_error(self, ctx: Context, error):
         message = None
@@ -152,3 +148,10 @@ class BashBot(Bot):
 
         if message:
             await ctx.send(f'`{message}`')
+
+    def is_invoke(self, message: Message):
+        if isinstance(message.channel, PrivateChannel):
+            return True
+
+        has_mention = self.user in message.mentions
+        return is_command(message.content) or has_mention

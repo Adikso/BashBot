@@ -15,7 +15,7 @@ class CloseCommand(commands.Cog):
     @has_permission('session.close')
     @session_exists()
     async def close(self, ctx):
-        terminal = sessions().get_by_channel(ctx.message.channel)
+        terminal = sessions().by_channel(ctx.message.channel)
 
         if not terminal:
             raise SessionDontExistException()
@@ -23,7 +23,7 @@ class CloseCommand(commands.Cog):
         terminal.close()
 
         if settings().get('terminal.delete_on_close'):
-            message = sessions().get_message(terminal)
+            message = sessions().find_message(terminal)
             await message.delete()
 
         sessions().remove(terminal)

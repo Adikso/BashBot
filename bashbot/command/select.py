@@ -14,7 +14,7 @@ class SelectCommand(commands.Cog):
     )
     @has_permission('session.select')
     async def select(self, ctx, name):
-        terminal = sessions().get_by_name(name)
+        terminal = sessions().by_name(name)
         if not terminal:
             raise TerminalNotFoundException()
 

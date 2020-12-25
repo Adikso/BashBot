@@ -6,7 +6,7 @@ from bashbot.terminal.sessions import sessions
 
 def session_exists():
     async def predicate(ctx):
-        if not sessions().get_by_channel(ctx.message.channel):
+        if not sessions().by_channel(ctx.message.channel):
             raise SessionDontExistException()
 
         return True

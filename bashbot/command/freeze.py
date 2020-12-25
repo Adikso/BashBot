@@ -15,7 +15,7 @@ class FreezeCommand(commands.Cog):
     @has_permission('session.freeze')
     @session_exists()
     async def freeze(self, ctx):
-        terminal = sessions().get_by_channel(ctx.message.channel)
+        terminal = sessions().by_channel(ctx.message.channel)
 
         if not terminal:
             raise SessionDontExistException()
