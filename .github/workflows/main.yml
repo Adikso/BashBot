@@ -15,6 +15,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+      - name: Get current date
+        id: date
+        run: echo "name=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
 
       - name: Run bashbot build
         run: |
@@ -28,8 +31,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: nightly-${{ steps.date.outputs.date }}
+          release_name: Release nightly-${{ steps.date.outputs.date }}
           draft: false
           prerelease: false
 
