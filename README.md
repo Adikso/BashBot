@@ -21,6 +21,11 @@ These instructions will get you a bot installed and running quickly
 
 ### Installing
 
+You can download BashBot.zip from [Releases](https://github.com/Adikso/BashBot/releases) 
+which contains all required dependencies and continue to "Running" section.
+
+or you can continue with manuall installation:
+
 Type following commands to install dependencies:
 ```
 pip install -r requirements.txt
@@ -39,6 +44,10 @@ After this operation reveal your token and copy it
 And run
 ```
 python bashbot.py
+```
+or if you downloaded BashBot [release](https://github.com/Adikso/BashBot/releases) 
+```
+python BashBot.zip
 ```
 
 Now BashBot should start and show later instructions
