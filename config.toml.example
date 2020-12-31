@@ -1,0 +1,27 @@
+[commands]
+prefixes = [ "$", ".bash",]
+
+[discord]
+token = "TOKEN_HERE"
+presence = "{prefix}.help"
+
+[terminal]
+template = "`| TTY #{name} | {state} |`\n```{content}```"
+shell_path = "/bin/bash"
+su_path = "/bin/su"
+startup_macro = ""
+delete_on_close = false
+delete_messages = true
+submit_by_default = true
+interactive_by_default = false
+
+[other]
+check_for_updates = true
+
+[terminal.interactive]
+delete_messages = true
+
+[terminal.user]
+login_as_other_user = false
+username = "myuser"
+password = "mypassword"

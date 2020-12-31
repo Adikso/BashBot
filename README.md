@@ -43,6 +43,18 @@ python bashbot.py
 
 Now BashBot should start and show later instructions
 
+### Docker
+Copy `config.toml.example` to `config.toml` file. And in the same directory run following command:
+```
+docker run -v $(pwd)/config.toml:/BashBot/config.toml adikso/bashbot
+```
+You can add `-d` to run container in background
+```
+docker run -d -v $(pwd)/config.toml:/BashBot/config.toml adikso/bashbot
+```
+
+Now BashBot should start and show later instructions
+
 ### Commands
 (Every command have to start with prefix. By default it's "$". You can change it in settings. More information about commands after typing "$.help")
 
