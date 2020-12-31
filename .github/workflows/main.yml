@@ -12,11 +12,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
 
       - name: Run bashbot build
         run: |
-          git clone https://github.com/Adikso/BashBot.git
-          cd BashBot
           pip install -r requirements.txt -t .
           mv bashbot.py __main__.py
           zip -r BashBot.zip .
