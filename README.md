@@ -35,11 +35,11 @@ pip install -r requirements.txt
 In order to run bot you have to obtain a bot account. It can be obtained through the [applications page](https://discordapp.com/developers/applications/me#top). 
 Later you have to transform your app into app bot user
 
-![Create a Bot User](https://i.imgur.com/DaloaLN.png)
+![Create a Bot User](https://i.imgur.com/98eUWrP.png)
 
-After this operation reveal your token and copy it
+After this operation, copy your bot token using the Copy button
 
-![](https://i.imgur.com/V2IE9uP.png)
+![](https://i.imgur.com/m4L67Hs.png)
 
 And run
 ```
