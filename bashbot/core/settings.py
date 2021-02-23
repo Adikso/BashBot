@@ -22,6 +22,7 @@ class Settings:
         # [discord]
         self.add_default('discord.token', 'TOKEN_HERE')
         self.add_default('discord.presence', '{prefix}.help')
+        self.add_default('discord.disable_dm', True)
 
         # [terminal]
         self.add_default('terminal.template', '`| TTY #{name} | {state} |`\n```{content}```')

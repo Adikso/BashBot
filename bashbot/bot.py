@@ -1,4 +1,4 @@
-from discord import Message, Reaction, User, Status, Game, DMChannel
+from discord import Message, Reaction, User, Status, Game, DMChannel, Embed
 from discord.abc import PrivateChannel
 from discord.ext.commands import Bot, Context
 from discord.utils import oauth_url
@@ -77,6 +77,11 @@ class BashBot(Bot):
 
     async def on_message(self, message: Message):
         if message.author.bot:
+            return
+
+        if settings().get('discord.disable_dm'):
+            embed = Embed(title=f'Using bot on DM is disabled', description='discord.disable_dm = true')
+            await message.channel.send(embed=embed)
             return
 
         terminal = sessions().by_channel(message.channel)
