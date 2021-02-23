@@ -1,4 +1,4 @@
-from discord import Message, Reaction, User, Status, Game
+from discord import Message, Reaction, User, Status, Game, DMChannel
 from discord.abc import PrivateChannel
 from discord.ext.commands import Bot, Context
 from discord.utils import oauth_url
@@ -110,8 +110,13 @@ class BashBot(Bot):
                 await message.delete()
 
     async def on_command(self, ctx: Context):
-        guild_name = ctx.message.channel.guild.name
-        channel_name = ctx.message.channel.name
+        if not isinstance(ctx.message.channel, DMChannel):
+            guild_name = ctx.message.channel.guild.name
+            channel_name = ctx.message.channel.name
+        else:
+            guild_name = 'DM'
+            channel_name = 'DM'
+
         author_name = ctx.message.author.name
         content = ctx.message.content
 
