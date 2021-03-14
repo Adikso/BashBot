@@ -4,6 +4,7 @@ from discord.ext.commands import Bot, Context
 from discord.utils import oauth_url
 
 from bashbot.command.about import AboutCommand
+from bashbot.command.exec import ExecCommand
 from bashbot.command.close import CloseCommand
 from bashbot.command.controls import ControlsCommand
 from bashbot.command.freeze import FreezeCommand
@@ -44,6 +45,7 @@ class BashBot(Bot):
         self.add_cog(SelectCommand())
         self.add_cog(InteractiveCommand())
         self.add_cog(SubmitCommand())
+        self.add_cog(ExecCommand())
 
         self.remove_command("help")
         self.add_cog(HelpCommand())
