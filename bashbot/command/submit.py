@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord.ext.commands import Context
 
-from bashbot.command import has_permission, session_exists
+from bashbot.command import session_exists
 from bashbot.terminal.sessions import sessions
 
 
@@ -10,7 +10,6 @@ class SubmitCommand(commands.Cog):
         name='.submit',
         description='Toggles auto submit mode'
     )
-    @has_permission('session.submit')
     @session_exists()
     async def submit(self, ctx: Context):
         terminal = sessions().by_channel(ctx.channel)

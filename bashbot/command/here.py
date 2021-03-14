@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord.ext.commands import Context
 
-from bashbot.command import has_permission, session_exists
+from bashbot.command import session_exists
 from bashbot.terminal.sessions import sessions
 
 
@@ -11,7 +11,6 @@ class HereCommand(commands.Cog):
         aliases=['.h'],
         description='Moves selected terminal below the user message'
     )
-    @has_permission('session.here')
     @session_exists()
     async def here(self, ctx: Context):
         terminal = sessions().by_channel(ctx.channel)

@@ -2,7 +2,6 @@ from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
 
-from bashbot.command import has_permission
 from bashbot.constants import REPOSITORY_URL, REPOSITORY_AUTHOR, THUMBNAIL_URL, EMBED_COLOR
 from bashbot.core.settings import settings
 from bashbot.core.updater import updater
@@ -13,7 +12,6 @@ class AboutCommand(commands.Cog):
         name='.about',
         description='Shows information about project'
     )
-    @has_permission('info.about')
     async def about(self, ctx: Context):
         embed = Embed(title='About BashBot', description='BashBot is a Discord bot that allows terminal access via chat.', color=EMBED_COLOR)
         embed.add_field(name='Github', value=REPOSITORY_URL, inline=False)

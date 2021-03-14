@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from bashbot.command import has_permission, session_exists
+from bashbot.command import session_exists
 from bashbot.core.exceptions import SessionDontExistException
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
@@ -12,7 +12,6 @@ class FreezeCommand(commands.Cog):
         aliases=['.f'],
         description='Freezes current terminal session'
     )
-    @has_permission('session.freeze')
     @session_exists()
     async def freeze(self, ctx):
         terminal = sessions().by_channel(ctx.message.channel)

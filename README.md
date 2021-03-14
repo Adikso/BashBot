@@ -82,6 +82,7 @@ Command | Alias | Usage | Description
 .macro | .m | .macro <macro_name> | Executes macro from "macros" directory
 .interactive | .i | .interactive | Enables interactive mode where all messages are sent to terminal
 .exec | .e | .exec <command...> | Execute single command
+.whitelist | - | .whitelist add/remove <user_tag> | Add/Remove user to/from whitelist. **Bot owner can execute all commands without being on the whitelist**
 
 ### Shortcuts
 Shortcut | Description

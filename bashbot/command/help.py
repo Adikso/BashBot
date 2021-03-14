@@ -2,7 +2,6 @@ from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
 
-from bashbot.command import has_permission
 from bashbot.constants import THUMBNAIL_URL, EMBED_COLOR, EMBED_COLOR_ERROR
 from bashbot.core.settings import settings
 
@@ -12,7 +11,6 @@ class HelpCommand(commands.Cog):
         name='.help',
         description='This command'
     )
-    @has_permission('help')
     async def help(self, ctx: Context, command_name=None):
         if command_name:
             await self._help_for_command(ctx, command_name)

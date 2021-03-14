@@ -13,9 +13,3 @@ def session_exists():
 
     return commands.check(predicate)
 
-
-def has_permission(name):
-    async def predicate(ctx):
-        return True
-
-    return commands.check(predicate)

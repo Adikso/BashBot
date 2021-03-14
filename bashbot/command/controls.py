@@ -1,7 +1,7 @@
 from discord import Message
 from discord.ext import commands
 
-from bashbot.command import session_exists, has_permission
+from bashbot.command import session_exists
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import Terminal
 
@@ -18,7 +18,6 @@ class ControlsCommand(commands.Cog):
 
     @controls.command()
     @session_exists()
-    @has_permission('input.controls.manage')
     async def add(self, ctx, emoji_id, content):
         terminal: Terminal = sessions().by_channel(ctx.channel)
         message: Message = sessions().find_message(terminal)
@@ -28,7 +27,6 @@ class ControlsCommand(commands.Cog):
 
     @controls.command()
     @session_exists()
-    @has_permission('input.controls.manage')
     async def remove(self, ctx, emoji_id):
         terminal: Terminal = sessions().by_channel(ctx.channel)
         message: Message = sessions().find_message(terminal)

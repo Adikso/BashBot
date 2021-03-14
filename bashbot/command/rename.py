@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from bashbot.command import has_permission, session_exists
+from bashbot.command import session_exists
 from bashbot.terminal.sessions import sessions
 
 
@@ -10,7 +10,6 @@ class RenameCommand(commands.Cog):
         description='Changes session name',
         usage='<new_name>'
     )
-    @has_permission('session.rename')
     @session_exists()
     async def rename(self, ctx, new_name):
         terminal = sessions().by_channel(ctx.message.channel)

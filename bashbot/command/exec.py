@@ -4,7 +4,6 @@ import subprocess
 
 from discord.ext import commands
 
-from bashbot.command import has_permission
 from bashbot.core.settings import settings
 
 
@@ -15,7 +14,6 @@ class ExecCommand(commands.Cog):
         description='Execute single command',
         usage='<command...>'
     )
-    @has_permission('session.open')
     async def exec(self, ctx, *, command):
         shell_path = settings().get('terminal.shell_path')
 

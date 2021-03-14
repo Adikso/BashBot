@@ -1,6 +1,5 @@
 from discord.ext import commands
 
-from bashbot.command import has_permission
 from bashbot.core.exceptions import ArgumentFormatException
 from bashbot.core.macros import execute_macro
 from bashbot.core.settings import settings
@@ -16,7 +15,6 @@ class OpenCommand(commands.Cog):
         description='Opens new terminal session',
         usage='[name]'
     )
-    @has_permission('session.open')
     async def open(self, ctx, name: str = None):
         if name and len(name) > 20:
             raise ArgumentFormatException('Session name length exceeds 20 characters limit')

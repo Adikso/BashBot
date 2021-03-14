@@ -17,6 +17,7 @@ from bashbot.command.repeat import RepeatCommand
 from bashbot.command.select import SelectCommand
 from bashbot.command.submit import SubmitCommand
 from bashbot.command.help import HelpCommand
+from bashbot.command.whitelist import WhitelistCommand
 from bashbot.core.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFoundException, \
     MacroNotFoundException
 from bashbot.core.settings import settings
@@ -46,6 +47,7 @@ class BashBot(Bot):
         self.add_cog(InteractiveCommand())
         self.add_cog(SubmitCommand())
         self.add_cog(ExecCommand())
+        self.add_cog(WhitelistCommand())
 
         self.remove_command("help")
         self.add_cog(HelpCommand())
@@ -81,10 +83,27 @@ class BashBot(Bot):
         if message.author.bot:
             return
 
-        if isinstance(message.channel, DMChannel) and settings().get('discord.disable_dm'):
-            embed = Embed(title=f'Using bot on DM is disabled', description='discord.disable_dm = true')
-            await message.channel.send(embed=embed)
-            return
+        is_owner = await self.is_owner(message.author)
+        if not is_owner:
+            if settings().get('discord.enable_users_whitelist'):
+                users_whitelist = settings().get('discord.users_whitelist', [])
+
+                if message.author.id not in users_whitelist:
+                    first_prefix = settings().get('commands.prefixes')[0]
+                    embed = Embed(
+                        title=f'Only whitelisted users can execute commands',
+                        description=f'{first_prefix}.whitelist add {message.author.mention}'
+                    )
+                    await message.channel.send(embed=embed)
+                    return
+
+            if isinstance(message.channel, DMChannel) and settings().get('discord.disable_dm'):
+                embed = Embed(
+                    title=f'Using bot on DM is disabled',
+                    description='discord.disable_dm = true'
+                )
+                await message.channel.send(embed=embed)
+                return
 
         terminal = sessions().by_channel(message.channel)
 
