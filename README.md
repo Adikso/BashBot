@@ -80,7 +80,8 @@ Command | Alias | Usage | Description
 .rename | - | .rename <new_name> | Changes session name
 .submit | - | .submit | Toggles auto submit mode
 .macro | .m | .macro <macro_name> | Executes macro from "macros" directory
-.interactive | .i | .i | Enables interactive mode where all messages are sent to terminal
+.interactive | .i | .interactive | Enables interactive mode where all messages are sent to terminal
+.exec | .e | .exec <command...> | Execute single command
 
 ### Shortcuts
 Shortcut | Description
