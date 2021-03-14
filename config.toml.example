@@ -4,6 +4,9 @@ prefixes = [ "$", ".bash",]
 [discord]
 token = "TOKEN_HERE"
 presence = "{prefix}.help"
+disable_dm = true
+enable_users_whitelist = true
+users_whitelist = []
 
 [terminal]
 template = "`| TTY #{name} | {state} |`\n```{content}```"
