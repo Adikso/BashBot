@@ -79,7 +79,7 @@ class BashBot(Bot):
         if message.author.bot:
             return
 
-        if settings().get('discord.disable_dm'):
+        if isinstance(message.channel, DMChannel) and settings().get('discord.disable_dm'):
             embed = Embed(title=f'Using bot on DM is disabled', description='discord.disable_dm = true')
             await message.channel.send(embed=embed)
             return
