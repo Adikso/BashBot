@@ -35,7 +35,17 @@ class OpenCommand(commands.Cog):
 
         # Prepare terminal
         sh_path = settings().get('terminal.shell_path')
-        terminal = Terminal(name, sh_path=sh_path, on_change=sessions().update_message)
+
+        login_as_other_user = settings().get('terminal.user.login_as_other_user')
+        if login_as_other_user:
+            su_path = settings().get('terminal.su_path')
+            login = settings().get('terminal.user.username')
+            password = settings().get('terminal.user.password')
+
+            terminal = Terminal(name, sh_path=sh_path, on_change=sessions().update_message, su_path=su_path, login=login, password=password)
+        else:
+            terminal = Terminal(name, sh_path=sh_path, on_change=sessions().update_message)
+
         sessions().add(message, terminal)
         terminal.open()
 
