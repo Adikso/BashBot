@@ -79,10 +79,7 @@ class BashBot(Bot):
             else:
                 self.logger.info(f'BashBot is up to date')
 
-    async def on_message(self, message: Message):
-        if message.author.bot:
-            return
-
+    async def check_permissions(self, message):
         is_owner = await self.is_owner(message.author)
         if not is_owner:
             if settings().get('discord.enable_users_whitelist'):
@@ -94,24 +91,38 @@ class BashBot(Bot):
                         title=f'Only whitelisted users can execute commands',
                         description=f'{first_prefix}.whitelist add {message.author.mention}'
                     )
+
                     await message.channel.send(embed=embed)
-                    return
+                    return False
 
             if isinstance(message.channel, DMChannel) and settings().get('discord.disable_dm'):
                 embed = Embed(
                     title=f'Using bot on DM is disabled',
                     description='discord.disable_dm = true'
                 )
+
                 await message.channel.send(embed=embed)
-                return
+                return False
+
+        return True
+
+    async def on_message(self, message: Message):
+        if message.author.bot:
+            return
 
         terminal = sessions().by_channel(message.channel)
 
         if self.is_invoke(message):
+            if not await self.check_permissions(message):
+                return
+
             await self.process_commands(message)
         elif terminal and terminal.state == TerminalState.OPEN:
             prefix = extract_prefix(message.content)
             if not terminal.interactive and not prefix:
+                return
+
+            if not await self.check_permissions(message):
                 return
 
             # We don't remove prefix when in interactive mode
