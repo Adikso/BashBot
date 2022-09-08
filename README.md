@@ -37,7 +37,12 @@ Later you have to transform your app into app bot user
 
 ![Create a Bot User](https://i.imgur.com/98eUWrP.png)
 
-After this operation, copy your bot token using the Copy button
+then enable "Message Content Intent"
+
+<img width="483" alt="2022-09-08_03-38" src="https://user-images.githubusercontent.com/1407751/189014783-7b84e5dc-bce2-4a69-8ed1-62e1638191bb.png">
+
+
+After these operations, copy your bot token using the Copy button
 
 ![](https://i.imgur.com/m4L67Hs.png)
 
