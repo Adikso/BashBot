@@ -3,8 +3,6 @@ import logging
 
 from bashbot.core.settings import settings
 
-loop = asyncio.get_event_loop()
-
 
 def get_logger(name):
     logger = logging.getLogger(name)
@@ -24,8 +22,8 @@ def parse_template(template, **kwargs):
     return template
 
 
-def execute_async(method, *args, **kwargs):
-    asyncio.run_coroutine_threadsafe(method(*args, **kwargs), loop)
+def execute_async(loop, coroutine):
+    asyncio.run_coroutine_threadsafe(coroutine, loop)
 
 
 def block_escape(text):

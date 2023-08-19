@@ -3,7 +3,7 @@ from discord import TextChannel, Message
 from bashbot.core.factory import SingletonDecorator
 from bashbot.core.settings import settings
 from bashbot.terminal.terminal import Terminal
-from bashbot.core.utils import execute_async, parse_template, block_escape
+from bashbot.core.utils import parse_template, block_escape
 
 
 class Sessions:
@@ -45,7 +45,7 @@ class Sessions:
         inv_map = {v: k for k, v in self.sessions.items()}
         return inv_map.get(terminal)
 
-    def update_message(self, terminal: Terminal, content: str):
+    async def update_message(self, terminal: Terminal, content: str):
         message = self.find_message(terminal)
 
         content = parse_template(
@@ -55,7 +55,7 @@ class Sessions:
             content=block_escape(content)
         )
 
-        execute_async(message.edit, content=content)
+        await message.edit(content=content)
 
 
 sessions = SingletonDecorator(Sessions)

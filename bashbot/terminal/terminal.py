@@ -1,3 +1,4 @@
+import asyncio
 import os
 import sys
 import threading
@@ -5,6 +6,7 @@ import pyte
 from enum import Enum
 
 from bashbot.core.settings import settings
+from bashbot.core.utils import execute_async
 from bashbot.terminal.control import TerminalControl
 from bashbot.terminal.shortcuts import replace_shortcuts
 
@@ -53,16 +55,16 @@ class Terminal:
         else:
             self.state = TerminalState.OPEN
 
-            pty_watcher = threading.Thread(target=self.__monitor_pty)
+            pty_watcher = threading.Thread(target=self.__monitor_pty, args=[asyncio.get_event_loop()])
             pty_watcher.start()
 
     def close(self):
         self.state = TerminalState.CLOSED
-        self.refresh()
+        self.refresh(asyncio.get_event_loop())
         os.close(self.fd)
 
-    def refresh(self):
-        self.on_change(self, self.content)
+    def refresh(self, loop):
+        execute_async(loop, self.on_change(self, self.content))
 
     def send_input(self, data: str):
         if self.state != TerminalState.OPEN:
@@ -81,10 +83,9 @@ class Terminal:
     def remove_control(self, emoji):
         self.controls.pop(emoji)
 
-    def __monitor_pty(self):
+    def __monitor_pty(self, loop):
         try:
             output = os.read(self.fd, 1024)
-
             if self.login:
                 self.send_input(self.password + '\n')
 
@@ -96,7 +97,7 @@ class Terminal:
                 self.content_update = True
 
                 if self.on_change:
-                    self.refresh()
+                    self.refresh(loop)
 
                 output = os.read(self.fd, 1024)
         except OSError:
