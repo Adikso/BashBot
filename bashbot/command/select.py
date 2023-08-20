@@ -1,13 +1,15 @@
+from discord import Embed
 from discord.ext import commands
 
+from bashbot.constants import EMBED_COLOR
 from bashbot.core.exceptions import TerminalNotFoundException
 from bashbot.terminal.sessions import sessions
 
 
 class SelectCommand(commands.Cog):
-    @commands.command(
-        name='.select',
-        aliases=['.s'],
+    @commands.hybrid_command(
+        name='select',
+        aliases=['.select', '.s'],
         description='Sets terminal as selected',
         usage='[name]'
     )
@@ -17,4 +19,5 @@ class SelectCommand(commands.Cog):
             raise TerminalNotFoundException()
 
         sessions().select(ctx.message.channel, terminal)
-        await ctx.send(f"`Selected terminal #{name}`")
+        embed = Embed(description=f"Selected terminal #{name}", color=EMBED_COLOR)
+        await ctx.send(embed=embed)

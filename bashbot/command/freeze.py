@@ -1,15 +1,17 @@
+from discord import Embed
 from discord.ext import commands
 
 from bashbot.command import session_exists
+from bashbot.constants import EMBED_COLOR
 from bashbot.core.exceptions import SessionDontExistException
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
 
 
 class FreezeCommand(commands.Cog):
-    @commands.command(
-        name='.freeze',
-        aliases=['.f'],
+    @commands.hybrid_command(
+        name='freeze',
+        aliases=['.freeze', '.f'],
         description='Freezes current terminal session'
     )
     @session_exists()
@@ -25,4 +27,6 @@ class FreezeCommand(commands.Cog):
             terminal.state = TerminalState.FROZEN
 
         terminal.refresh()
-        await ctx.send(f"`Changed terminal #{terminal.name} state to {terminal.state.name}`")
+
+        embed = Embed(description=f"Changed terminal #{terminal.name} state to {terminal.state.name}", color=EMBED_COLOR)
+        await ctx.send(embed=embed)

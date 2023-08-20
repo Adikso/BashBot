@@ -70,6 +70,9 @@ docker run -d -v $(pwd)/config.toml:/BashBot/config.toml adikso/bashbot
 Now BashBot should start and show later instructions
 
 ### Commands
+
+**Commands are now available as app commands**, but you can still use the old way:
+
 (Every command have to start with prefix. By default it's "$". You can change it in settings. More information about commands after typing "$.help")
 
 Command | Alias | Usage | Description 

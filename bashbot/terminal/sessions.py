@@ -45,6 +45,10 @@ class Sessions:
         inv_map = {v: k for k, v in self.sessions.items()}
         return inv_map.get(terminal)
 
+    def update_message_reference(self, terminal: Terminal, message: Message):
+        del self.sessions[self.find_message(terminal)]
+        self.sessions[message] = terminal
+
     async def update_message(self, terminal: Terminal, content: str):
         message = self.find_message(terminal)
 
@@ -55,7 +59,7 @@ class Sessions:
             content=block_escape(content)
         )
 
-        await message.edit(content=content)
+        await message.edit(content=content, embed=None)
 
 
 sessions = SingletonDecorator(Sessions)

@@ -1,3 +1,4 @@
+from discord import Message, Embed
 from discord.ext import commands
 
 from bashbot.core.exceptions import ArgumentFormatException
@@ -9,9 +10,9 @@ from bashbot.core.utils import parse_template
 
 
 class OpenCommand(commands.Cog):
-    @commands.command(
-        name='.open',
-        aliases=['.o'],
+    @commands.hybrid_command(
+        name='open',
+        aliases=['.open', '.o'],
         description='Opens new terminal session',
         usage='[name]'
     )
@@ -29,7 +30,7 @@ class OpenCommand(commands.Cog):
             state='OPENING',
             content='Waiting for tty..'
         )
-        message = await ctx.send(content)
+        message: Message = await ctx.send(content)
 
         # Prepare terminal
         sh_path = settings().get('terminal.shell_path')

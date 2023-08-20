@@ -1,14 +1,16 @@
+from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
 
 from bashbot.command import session_exists
+from bashbot.constants import EMBED_COLOR
 from bashbot.terminal.sessions import sessions
 
 
 class HereCommand(commands.Cog):
-    @commands.command(
-        name='.here',
-        aliases=['.h'],
+    @commands.hybrid_command(
+        name='here',
+        aliases=['.here', '.h'],
         description='Moves selected terminal below the user message'
     )
     @session_exists()
@@ -19,7 +21,8 @@ class HereCommand(commands.Cog):
         await message.delete()
         sessions().remove(terminal)
 
-        message = await ctx.send("Moving terminal...")
+        embed = Embed(description=f"Moving terminal...", color=EMBED_COLOR)
+        message = await ctx.send(embed=embed)
         sessions().add(message, terminal)
 
         terminal.refresh()

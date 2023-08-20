@@ -17,6 +17,7 @@ jobs:
         run: |
           pip install -r requirements.txt -t .
           mv bashbot.py __main__.py
+          echo '{"version": "${{ github.sha }}"}' > build.json
           zip -r BashBot.zip .
   
       - name: Create Release

@@ -1,9 +1,10 @@
 import logging
 
-from discord import LoginFailure
+from discord import LoginFailure, Intents
 
 from bashbot.bot import BashBot
 from bashbot.core.settings import settings
+from bashbot.core.state import state
 from bashbot.core.utils import get_logger
 
 logger = get_logger('Launcher')
@@ -21,6 +22,7 @@ def launch():
     setup_logger()
     settings().load()
     settings().load_macros()
+    state().load()
 
     prefix = settings().get('commands.prefixes', ['$'])[0]
     token = settings().get('discord.token')
@@ -30,7 +32,9 @@ def launch():
         return
 
     try:
-        BashBot(prefix).run(token)
+        intents = Intents.default()
+        intents.message_content = True
+        BashBot(prefix, intents=intents).run(token)
     except LoginFailure as e:
         logger.error(e.args[0])
 

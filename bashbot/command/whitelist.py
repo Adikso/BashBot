@@ -1,12 +1,13 @@
-from discord import User
+from discord import User, Embed
 from discord.ext import commands
 
 from bashbot.core.settings import settings
 
 
 class WhitelistCommand(commands.Cog):
-    @commands.group(
-        name='.whitelist',
+    @commands.hybrid_group(
+        name='whitelist',
+        aliases=['.whitelist'],
         description='Manages users whitelist',
         usage='add/remove <user_tag>'
     )
@@ -20,9 +21,12 @@ class WhitelistCommand(commands.Cog):
         if user.id not in whitelist:
             whitelist.append(user.id)
             settings().save()
-            await ctx.send(f"Added user {user.mention} to whitelist")
+
+            embed = Embed(description=f"Added user {user.mention} to whitelist", color=0x00ff00)
+            await ctx.send(embed=embed)
         else:
-            await ctx.send(f"User {user.mention} is already on the whitelist")
+            embed = Embed(description=f"User {user.mention} is already on the whitelist", color=0xff0000)
+            await ctx.send(embed=embed)
 
     @controls.command()
     async def remove(self, ctx, user: User):
@@ -30,6 +34,8 @@ class WhitelistCommand(commands.Cog):
         if user.id in whitelist:
             whitelist.remove(user.id)
             settings().save()
-            await ctx.send(f"Removed user {user.mention} from whitelist")
+            embed = Embed(description=f"Removed user {user.mention} from whitelist", color=0x00ff00)
+            await ctx.send(embed=embed)
         else:
-            await ctx.send(f"User {user.mention} is not on the whitelist")
+            embed = Embed(description=f"User {user.mention} is not on the whitelist", color=0xff0000)
+            await ctx.send(embed=embed)

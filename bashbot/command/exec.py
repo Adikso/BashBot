@@ -8,9 +8,9 @@ from bashbot.core.settings import settings
 
 
 class ExecCommand(commands.Cog):
-    @commands.command(
-        name='.exec',
-        aliases=['.e'],
+    @commands.hybrid_command(
+        name='exec',
+        aliases=['.exec', '.e'],
         description='Execute single command',
         usage='<command...>'
     )
@@ -39,4 +39,4 @@ class ExecCommand(commands.Cog):
                 universal_newlines=True,
             )
 
-        await ctx.send(output)
+        await ctx.send(f'```\n{output}\n```')

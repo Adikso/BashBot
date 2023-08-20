@@ -7,9 +7,10 @@ from bashbot.core.settings import settings
 
 
 class HelpCommand(commands.Cog):
-    @commands.command(
-        name='.help',
-        description='This command'
+    @commands.hybrid_command(
+        name='help',
+        aliases=['.help'],
+        description='Shows commands usage help'
     )
     async def help(self, ctx: Context, command_name=None):
         if command_name:
@@ -39,8 +40,16 @@ class HelpCommand(commands.Cog):
         embed = Embed(title=f'BashBot Help for {command_name}', description=description, color=EMBED_COLOR)
         embed.set_thumbnail(url=THUMBNAIL_URL)
 
+        first_prefix = settings().get('commands.prefixes')[0]
+        if ctx.interaction:
+            command_name = f'/{command.name}'
+        else:
+            command_name = f'{first_prefix}' + command.aliases[0]
+
         if command.usage:
             embed.add_field(name='Usage', value=f'{command_name} {command.usage}', inline=False)
+        else:
+            embed.add_field(name='Usage', value=f'{command_name}', inline=False)
 
         await ctx.send(embed=embed)
 
@@ -48,7 +57,7 @@ class HelpCommand(commands.Cog):
     async def _help_all_commands(ctx: Context):
         first_prefix = settings().get('commands.prefixes')[0]
 
-        embed = Embed(title='BashBot Help', description=f'For more help type {first_prefix}.help [command]', color=EMBED_COLOR)
+        embed = Embed(title='BashBot Help', description=f'For more help type {"/" if ctx.interaction else first_prefix + "."}help [command]', color=EMBED_COLOR)
         embed.set_thumbnail(url=THUMBNAIL_URL)
 
         sorted_commands = sorted(ctx.bot.commands, key=lambda c: c.name)
@@ -62,6 +71,12 @@ class HelpCommand(commands.Cog):
                 description = '<<Missing description>>'
 
             usage = ' ' + command.usage if command.usage else ''
-            embed.add_field(name=command.name + usage, value=description, inline=False)
+
+            if ctx.interaction:
+                command_name = f'/{command.name}'
+            else:
+                command_name = f'{first_prefix}' + command.aliases[0]
+
+            embed.add_field(name=command_name + usage, value=description, inline=False)
 
         await ctx.send(embed=embed)

@@ -4,3 +4,4 @@ __pycache__/
 
 config.toml
 bashbot.log
+state.json

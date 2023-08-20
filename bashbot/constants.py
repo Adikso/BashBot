@@ -1,6 +1,5 @@
 REPOSITORY_AUTHOR = 'adikso'
 REPOSITORY_NAME = 'BashBot'
-REPOSITORY_BRANCH = 'master'
 REPOSITORY_URL = f'https://github.com/{REPOSITORY_AUTHOR}/{REPOSITORY_NAME}'
 
 THUMBNAIL_URL = 'https://cdn.discordapp.com/avatars/258638578798559233/8a50a65e7bfaf661d01db9ca2b617748.png'

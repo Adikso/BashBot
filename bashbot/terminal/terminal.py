@@ -63,8 +63,8 @@ class Terminal:
         self.refresh(asyncio.get_event_loop())
         os.close(self.fd)
 
-    def refresh(self, loop):
-        execute_async(loop, self.on_change(self, self.content))
+    def refresh(self, loop=None):
+        execute_async(loop or asyncio.get_event_loop(), self.on_change(self, self.content))
 
     def send_input(self, data: str):
         if self.state != TerminalState.OPEN:

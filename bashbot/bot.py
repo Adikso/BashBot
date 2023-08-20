@@ -1,6 +1,7 @@
-from discord import Message, Reaction, User, Status, Game, DMChannel, Embed
+from discord import Message, Status, Game, DMChannel, Embed, Interaction, InteractionType
 from discord.abc import PrivateChannel
 from discord.ext.commands import Bot, Context
+from discord.ui import View, Button
 from discord.utils import oauth_url
 
 from bashbot.command.about import AboutCommand
@@ -21,10 +22,10 @@ from bashbot.command.whitelist import WhitelistCommand
 from bashbot.core.exceptions import SessionDontExistException, ArgumentFormatException, TerminalNotFoundException, \
     MacroNotFoundException
 from bashbot.core.settings import settings
-from bashbot.terminal.control import TerminalControl
+from bashbot.core.state import state
 from bashbot.terminal.sessions import sessions
 from bashbot.terminal.terminal import TerminalState
-from bashbot.core.updater import updater
+from bashbot.core.updater import updater, Updater
 from bashbot.core.utils import get_logger, parse_template, extract_prefix, is_command, remove_prefix
 
 
@@ -32,27 +33,31 @@ class BashBot(Bot):
     logger = get_logger('BashBot')
     cmd_logger = get_logger('Command')
 
-    def __init__(self, command_prefix, **options):
-        super().__init__(command_prefix, **options)
-        self.add_cog(OpenCommand())
-        self.add_cog(CloseCommand())
-        self.add_cog(HereCommand())
-        self.add_cog(FreezeCommand())
-        self.add_cog(RenameCommand())
-        self.add_cog(ControlsCommand())
-        self.add_cog(AboutCommand())
-        self.add_cog(RepeatCommand())
-        self.add_cog(MacroCommand())
-        self.add_cog(SelectCommand())
-        self.add_cog(InteractiveCommand())
-        self.add_cog(SubmitCommand())
-        self.add_cog(ExecCommand())
-        self.add_cog(WhitelistCommand())
+    async def setup_hook(self):
+        await self.add_cog(OpenCommand())
+        await self.add_cog(CloseCommand())
+        await self.add_cog(HereCommand())
+        await self.add_cog(FreezeCommand())
+        await self.add_cog(RenameCommand())
+        await self.add_cog(ControlsCommand())
+        await self.add_cog(AboutCommand())
+        await self.add_cog(RepeatCommand())
+        await self.add_cog(MacroCommand())
+        await self.add_cog(SelectCommand())
+        await self.add_cog(InteractiveCommand())
+        await self.add_cog(SubmitCommand())
+        await self.add_cog(ExecCommand())
+        await self.add_cog(WhitelistCommand())
 
         self.remove_command("help")
-        self.add_cog(HelpCommand())
+        await self.add_cog(HelpCommand())
 
     async def on_ready(self):
+        if state()['last_run_version'] != Updater.get_local_commit():
+            self.logger.info('Synchronizing command tree...')
+            await self.tree.sync()
+            self.logger.info('Command tree synchronized')
+
         self.__check_for_updates()
 
         self.logger.info(f'Logged in as {self.user.name} ({self.user.id})')
@@ -71,11 +76,14 @@ class BashBot(Bot):
         if settings().get('other.check_for_updates'):
             self.logger.info(f'Checking for updates...')
 
-            update_details = updater().check_for_updates(rate_limit=False)
-            if update_details:
-                self.logger.info(f'New update available. Try running `git pull`. '
-                                 f'Commit "{update_details["message"]}" '
-                                 f'({update_details["sha"]})')
+            releases = updater().check_for_updates()
+            if releases is None:
+                self.logger.info(f'Failed to fetch updates information')
+            elif releases:
+                self.logger.info(
+                    f'New updates available. Try running `git pull`. \n' +
+                    '\n'.join([f'- {x["name"]} ({x["html_url"]})' for x in releases])
+                )
             else:
                 self.logger.info(f'BashBot is up to date')
 
@@ -146,6 +154,24 @@ class BashBot(Bot):
             if should_delete_any or (should_delete_interactive and terminal.interactive):
                 await message.delete()
 
+    async def on_interaction(self, interaction: Interaction):
+        if interaction.type != InteractionType.component:
+            return
+
+        terminal = sessions().by_message(interaction.message)
+
+        label = interaction.data['custom_id']
+        if label.startswith('control_') and not terminal:
+            await interaction.response.send_message(content='This terminal is unavailable', ephemeral=True)
+            view = View.from_message(interaction.message)
+            for component in view.children:
+                if isinstance(component, Button):
+                    component.disabled = True
+
+            await interaction.message.edit(view=view)
+            terminal.state = TerminalState.BROKEN
+            terminal.refresh()
+
     async def on_command(self, ctx: Context):
         if not isinstance(ctx.message.channel, DMChannel):
             guild_name = ctx.message.channel.guild.name
@@ -158,20 +184,6 @@ class BashBot(Bot):
         content = ctx.message.content
 
         self.cmd_logger.info(f"[{guild_name}/#{channel_name}] {author_name} invoked command: {content}")
-
-    async def on_reaction_add(self, reaction: Reaction, user: User):
-        if user.bot:
-            return
-
-        terminal = sessions().by_message(reaction.message)
-        if reaction.emoji not in terminal.controls:
-            return
-
-        control: TerminalControl = terminal.controls[reaction.emoji]
-        terminal.send_input(control.text)
-
-    async def on_reaction_remove(self, reaction: Reaction, user: User):
-        await self.on_reaction_add(reaction, user)
 
     async def on_command_error(self, ctx: Context, error):
         message = None

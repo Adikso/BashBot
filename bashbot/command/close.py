@@ -1,3 +1,4 @@
+from discord import Embed
 from discord.ext import commands
 
 from bashbot.command import session_exists
@@ -7,9 +8,9 @@ from bashbot.terminal.sessions import sessions
 
 
 class CloseCommand(commands.Cog):
-    @commands.command(
-        name='.close',
-        aliases=['.c'],
+    @commands.hybrid_command(
+        name='close',
+        aliases=['.close', '.c'],
         description='Closes current terminal session'
     )
     @session_exists()
@@ -26,4 +27,6 @@ class CloseCommand(commands.Cog):
             await message.delete()
 
         sessions().remove(terminal)
-        await ctx.send(f"`Closed terminal #{terminal.name}`")
+
+        embed = Embed(description=f"Closed terminal #{terminal.name}", color=0xff0000)
+        await ctx.send(embed=embed)
