@@ -18,6 +18,11 @@ class TerminalState(Enum):
     BROKEN = 3
 
 
+INIT_ENVS = {
+    'TERM': 'linux'
+}
+
+
 class Terminal:
     def __init__(self, name: str,
                  sh_path: str, su_path: str = None,
@@ -47,9 +52,9 @@ class Terminal:
 
         if pid == 0:
             if self.login:
-                os.execv(self.su_path, [self.su_path, "-", self.login, "-s", self.sh_path])
+                os.execve(self.su_path, [self.su_path, "-", self.login, "-s", self.sh_path], INIT_ENVS)
             else:
-                os.execv(self.sh_path, [self.sh_path, ])
+                os.execve(self.sh_path, [self.sh_path, ], INIT_ENVS)
 
             sys.exit(0)
         else:
@@ -91,8 +96,6 @@ class Terminal:
             output = os.read(self.fd, 1024)
             if self.login:
                 self.send_input(self.password + '\n')
-
-            self.send_input('export TERM=linux\nclear\n')
 
             while output:
                 self.stream.feed(output)
