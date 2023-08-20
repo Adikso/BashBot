@@ -6,9 +6,12 @@ BashBot is a Discord bot that provides terminal access via chat.
 
 ## Features
 * Interactive. Works with `nano`, `htop` etc
-* Reactions can be used as input keys
+* Buttons can be used as input keys
 * Open/Close/Select/Freeze terminal sessions
 * Run terminal session as different user
+* Support for macros
+* Users whitelisting
+* ... and more
 
 ## Getting Started
 
