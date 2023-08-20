@@ -1,4 +1,4 @@
-from discord import Embed
+from discord import Embed, Interaction, app_commands
 from discord.ext import commands
 
 from bashbot.constants import EMBED_COLOR
@@ -21,3 +21,11 @@ class SelectCommand(commands.Cog):
         sessions().select(ctx.message.channel, terminal)
         embed = Embed(description=f"Selected terminal #{name}", color=EMBED_COLOR)
         await ctx.send(embed=embed)
+
+    @select.autocomplete('name')
+    async def select_autocomplete(self, interaction: Interaction, current: str):
+        results = sessions().search(current)
+        return [
+            app_commands.Choice(name=option.name, value=option.name)
+            for option in results
+        ]

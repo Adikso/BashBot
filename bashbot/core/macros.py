@@ -17,3 +17,7 @@ async def execute_macro(ctx, name):
             await ctx.bot.process_commands(ctx.message)
         else:
             terminal.send_input(line)
+
+
+def search_macro(phrase):
+    return [name for name in settings().macros.keys() if name.startswith(phrase)]

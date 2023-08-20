@@ -1,5 +1,5 @@
 import discord
-from discord import Message, Interaction, Embed
+from discord import Message, Interaction, Embed, app_commands
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord.ui import View
@@ -77,3 +77,12 @@ class ControlsCommand(commands.Cog):
         if ctx.interaction:
             embed = Embed(description=f"Control removed", color=0xff0000)
             await ctx.reply(embed=embed, ephemeral=False, delete_after=0)
+
+    @remove.autocomplete('label')
+    async def remove_autocomplete(self, interaction: Interaction, current: str):
+        terminal: Terminal = sessions().by_channel(interaction.channel)
+        results = terminal.search_control(current)
+        return [
+            app_commands.Choice(name=option, value=option)
+            for option in results
+        ]

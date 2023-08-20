@@ -83,6 +83,9 @@ class Terminal:
     def remove_control(self, emoji):
         self.controls.pop(emoji)
 
+    def search_control(self, phrase):
+        return [label for label in self.controls.keys() if label.startswith(phrase)]
+
     def __monitor_pty(self, loop):
         try:
             output = os.read(self.fd, 1024)

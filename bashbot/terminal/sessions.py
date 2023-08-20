@@ -1,3 +1,5 @@
+from typing import List
+
 from discord import TextChannel, Message
 
 from bashbot.core.factory import SingletonDecorator
@@ -26,6 +28,9 @@ class Sessions:
         for message, terminal in self.sessions.items():
             if searched_message.id == message.id:
                 return terminal
+
+    def search(self, phrase: str) -> List[Terminal]:
+        return [terminal for terminal in self.sessions.values() if terminal.name.startswith(phrase)]
 
     def by_name(self, name: str) -> Terminal:
         for message, terminal in self.sessions.items():
