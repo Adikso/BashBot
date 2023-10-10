@@ -47,9 +47,11 @@ class Terminal:
         self.content = None
 
         self.refresh_timer = None
+        self.event_loop = None
 
     def open(self):
         pid, self.fd = os.forkpty()
+        self.event_loop = asyncio.get_event_loop()
 
         if pid == 0:
             if self.login:
@@ -61,21 +63,21 @@ class Terminal:
         else:
             self.state = TerminalState.OPEN
 
-            pty_watcher = threading.Thread(target=self.__monitor_pty, args=[asyncio.get_event_loop()])
+            pty_watcher = threading.Thread(target=self.__monitor_pty)
             pty_watcher.start()
 
     def close(self):
         self.state = TerminalState.CLOSED
-        self.refresh(asyncio.get_event_loop())
+        self.refresh()
         os.close(self.fd)
 
-    def refresh(self, loop=None):
+    def refresh(self):
         if self.refresh_timer and self.refresh_timer.is_alive():
             return
 
         interval = settings().get('terminal.max_refresh_frequency')
         self.refresh_timer = threading.Timer(interval, lambda: {
-            execute_async(loop or asyncio.get_event_loop(), self.on_change(self, self.content))
+            execute_async(self.event_loop, self.on_change(self, self.content))
         })
         self.refresh_timer.start()
 
@@ -99,7 +101,7 @@ class Terminal:
     def search_control(self, phrase):
         return [label for label in self.controls.keys() if label.startswith(phrase)]
 
-    def __monitor_pty(self, loop):
+    def __monitor_pty(self):
         try:
             output = os.read(self.fd, 1024)
             if self.login:
@@ -110,7 +112,7 @@ class Terminal:
                 self.content = '\n'.join(self.screen.display)
 
                 if self.on_change:
-                    self.refresh(loop)
+                    self.refresh()
 
                 output = os.read(self.fd, 1024)
         except OSError:
