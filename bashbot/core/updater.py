@@ -83,10 +83,14 @@ class Updater:
     def get_git_commit():
         try:
             with open('.git/HEAD', 'r') as file:
-                ref = file.readline().split(": ")[1].rstrip()
+                content = file.readline()
 
-            with open(f'.git/{ref}', 'r') as file:
-                commit_hash = file.readline().rstrip()
+            if ': ' in content:
+                ref = content.split(": ")[1].rstrip()
+                with open(f'.git/{ref}', 'r') as file:
+                    commit_hash = file.readline().rstrip()
+            else:
+                commit_hash = content.rstrip()
 
             return commit_hash
         except FileNotFoundError:
