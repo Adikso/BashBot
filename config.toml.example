@@ -17,6 +17,7 @@ delete_on_close = false
 delete_messages = true
 submit_by_default = true
 interactive_by_default = false
+max_refresh_frequency = 0.5
 
 [other]
 check_for_updates = true

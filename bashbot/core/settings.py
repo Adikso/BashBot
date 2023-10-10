@@ -35,6 +35,7 @@ class Settings:
         self.add_default('terminal.delete_messages', True)
         self.add_default('terminal.submit_by_default', True)
         self.add_default('terminal.interactive_by_default', False)
+        self.add_default('terminal.max_refresh_frequency', 0.5)
 
         # [terminal.interactive]
         self.add_default('terminal.interactive.delete_messages', True)

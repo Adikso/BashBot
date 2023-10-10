@@ -45,7 +45,8 @@ class Terminal:
 
         self.fd = None
         self.content = None
-        self.content_update = False
+
+        self.refresh_timer = None
 
     def open(self):
         pid, self.fd = os.forkpty()
@@ -69,7 +70,14 @@ class Terminal:
         os.close(self.fd)
 
     def refresh(self, loop=None):
-        execute_async(loop or asyncio.get_event_loop(), self.on_change(self, self.content))
+        if self.refresh_timer and self.refresh_timer.is_alive():
+            return
+
+        interval = settings().get('terminal.max_refresh_frequency')
+        self.refresh_timer = threading.Timer(interval, lambda: {
+            execute_async(loop or asyncio.get_event_loop(), self.on_change(self, self.content))
+        })
+        self.refresh_timer.start()
 
     def send_input(self, data: str):
         if self.state != TerminalState.OPEN:
@@ -100,7 +108,6 @@ class Terminal:
             while output:
                 self.stream.feed(output)
                 self.content = '\n'.join(self.screen.display)
-                self.content_update = True
 
                 if self.on_change:
                     self.refresh(loop)
